@@ -1,0 +1,97 @@
+---
+  - hosts: localhost
+    name: Configure Standard Performance Service Levels (PSLs)
+    gather_facts: false
+
+    vars:
+      aiqum:
+        hostname:       192.168.7.225
+        username:       admin
+        password:       netapp1234
+        api_endpoint:   https://192.168.7.225/api  # NetApp AIQUM API endpoint
+      psl:
+      - bulk:
+          description: "Compliance: SnapVault, SnapProtect, SnapLock"
+          iops:
+            min:      128
+            expected: 256
+            peak:     512
+          latency:    17
+      - value:
+          description: "High Capacity Applications HDD-based: File Shares & Backup Targets"
+          iops:
+            min:      256
+            expected: 256
+            peak:     512
+          latency:    13
+      - standard:
+          description: "High Capacity Applications: File Shares & Backup Targets"
+          iops:
+            min:      256
+            expected: 256
+            peak:     512
+          latency:    2
+      - premium:
+          description: "VMs & Applications"
+          iops:
+            min:      1024
+            expected: 2048
+            peak:     4096
+          latency:    2
+      - extreme:
+          description: "Lg DBs, HPC"
+          iops:
+            min:      3072
+            expected: 6144
+            peak:     12288
+          latency:    1
+      - ultra:
+          description: "In-Memory DBs, GPU apps"
+          iops:
+            min:      8000
+            expected: 18432
+            peak:     36864
+          latency:    1
+
+
+    tasks:
+
+    ##
+    # Validate contents of var: psl
+    ##
+      - debug:
+          msg:
+            # -           "{{ psl }}"
+            -           "{{ item }}"
+        name: 'Display content of var: PSL'
+        loop: "{{ psl }}"
+
+    ##
+    # AIQUM API calls
+    ##
+
+    # - name: POST new Performance Service Levels
+    #   uri:
+    #     url: "{{ aiqum.api_endpoint }}/storage-provider/performance-service-levels"
+    #     user:     "{{ aiqum.username }}"
+    #     password: "{{ aiqum.password }}"
+    #     force_basic_auth: yes
+    #     validate_certs: no
+    #     method: POST
+    #     headers:
+    #       content-Type: application/json
+    #       accept: application/json
+    #     body_format: json
+    #     body:
+    #       name:                         "{{ psl.item }}"
+    #       description:                  "{{ psl.item.description }}"
+    #       iops:
+    #        absolute_min_iops:           "{{ psl.item.iops.min }}"
+    #        expected_iops_per_tb:        "{{ psl.item.iops.expected }}"
+    #        peak_iops_allocation_policy: "used_space"
+    #        peak_iops_per_tb:            "{{ psl.item.iops.peak }}"
+    #       latency:
+    #        expected:                    "{{ psl.item.latency }}"
+    #     status_code: 201
+    #   loop:  "{{ psl }}"
+    #   register: post_result

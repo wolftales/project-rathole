@@ -1,0 +1,164 @@
+---
+- name: Build AIQUM from OVA
+  hosts: localhost
+  gather_facts: false
+  vars:
+
+  vars_files:
+    # - vars/vars_main.yml
+    - vars/vars_aiqum.yml 
+
+  tasks:
+
+  # Create vm and load OVA
+  - name: 'Create {{ vm.name }} and load OVA'
+    vmware_deploy_ovf:
+      hostname: '{{ vcenter.address }}'
+      username: '{{ vcenter.username }}'
+      password: '{{ vcenter.password }}'
+      validate_certs: no
+      datacenter: '{{ vcenter.datacenter }}'
+      cluster: '{{ vcenter.cluster }}'
+      datastore: '{{ vm_datastore }}'
+      name: '{{ vm.name }}'
+      ovf: '{{ aiqum_ova }}'
+      disk_provisioning: thin
+      power_on: yes
+      wait_for_ip_address: false
+      networks: "{u'ONTAP Select Network':u'{{ vm_network }}',u'nat':u'{{ vm_network }}'}"
+      inject_ovf_env: true
+      properties:
+        org.linuxdistx.IPV6Auto: false
+        org.linuxdistx.HostFQDN: "{{ vm.hostname }}"
+        org.linuxdistx.IPAddress: "{{ vm.address }}"
+        org.linuxdistx.NetworkMask: "{{ vm.netmask }}"
+        org.linuxdistx.Gateway: "{{ vm.gateway }}"
+        org.linuxdistx.PrimaryDNS: "{{ vm.dns1 }}"
+        org.linuxdistx.SecondaryDNS: "{{ vm.dns2 }}"
+    delegate_to: localhost
+    retries: 2
+    delay: 60
+    register: result
+    until: result is succeeded
+
+  # This happens early in the fist boot
+  - name: Wait for VMware tools to become available
+    community.vmware.vmware_guest_tools_wait:
+      hostname: '{{ vcenter.address }}'
+      username: '{{ vcenter.username }}'
+      password: '{{ vcenter.password }}'
+      validate_certs: no
+      name: '{{ vm.name }}'
+    delegate_to: localhost
+    retries: 10
+    delay: 60
+    register: result
+    until: result is succeeded
+
+  # This timer needs tuning
+  - name: Pause for 6 minutes
+    pause:
+      minutes: 6
+
+  # First is prompts for timezone info
+  - name: Configure appliance via sendkey
+    community.vmware.vmware_guest_sendkey:
+      hostname: '{{ vcenter.address }}'
+      username: '{{ vcenter.username }}'
+      password: '{{ vcenter.password }}'
+      validate_certs: no
+      name: "{{ vm.name }}"
+      keys_send: ENTER
+      string_send: "{{ item }}"
+    delegate_to: localhost
+    loop:
+      - "12" # US
+      - "10" # Pacific
+      - "" #enter
+
+  # Now we wait for it to bring up its nic
+  - name: Start VM
+    vmware_guest:
+      hostname: '{{ vcenter.address }}'
+      username: '{{ vcenter.username }}'
+      password: '{{ vcenter.password }}'
+      validate_certs: no
+      name: '{{ vm.name }}'
+      state: poweredon
+      wait_for_ip_address: true
+    delegate_to: localhost
+
+  # This timer also needs tuning
+  - name: Pause for 4 minutes
+    pause:
+      minutes: 4
+
+  # now we set the admin creds - slowly
+  - name: Configure appliance via sendkey
+    community.vmware.vmware_guest_sendkey:
+      hostname: '{{ vcenter.address }}'
+      username: '{{ vcenter.username }}'
+      password: '{{ vcenter.password }}'
+      validate_certs: no
+      name: "{{ vm.name }}"
+      string_send: "{{vm.username}}"
+    delegate_to: localhost
+  - name: Press ENTER
+    community.vmware.vmware_guest_sendkey:
+      hostname: '{{ vcenter.address }}'
+      username: '{{ vcenter.username }}'
+      password: '{{ vcenter.password }}'
+      validate_certs: no
+      name: "{{ vm.name }}"
+      keys_send: ENTER
+    delegate_to: localhost
+
+  # This timer also needs tuning
+  - name: Pause for 5 seconds
+    pause:
+      seconds: 5
+
+  # Password
+  - name: Configure appliance via sendkey
+    community.vmware.vmware_guest_sendkey:
+      hostname: '{{ vcenter.address }}'
+      username: '{{ vcenter.username }}'
+      password: '{{ vcenter.password }}'
+      validate_certs: no
+      name: "{{ vm.name }}"
+      string_send: "{{vm.password}}"
+    delegate_to: localhost
+  - name: Press ENTER
+    community.vmware.vmware_guest_sendkey:
+      hostname: '{{ vcenter.address }}'
+      username: '{{ vcenter.username }}'
+      password: '{{ vcenter.password }}'
+      validate_certs: no
+      name: "{{ vm.name }}"
+      keys_send: ENTER
+    delegate_to: localhost
+
+  # This timer also needs tuning
+  - name: Pause for 5 seconds
+    pause:
+      seconds: 5
+
+  # Password confirmation
+  - name: Configure appliance via sendkey
+    community.vmware.vmware_guest_sendkey:
+      hostname: '{{ vcenter.address }}'
+      username: '{{ vcenter.username }}'
+      password: '{{ vcenter.password }}'
+      validate_certs: no
+      name: "{{ vm.name }}"
+      string_send: "{{ vm.password }}"
+    delegate_to: localhost
+  - name: Press ENTER
+    community.vmware.vmware_guest_sendkey:
+      hostname: '{{ vcenter.address }}'
+      username: '{{ vcenter.username }}'
+      password: '{{ vcenter.password }}'
+      validate_certs: no
+      name: "{{ vm_name }}"
+      keys_send: ENTER
+    delegate_to: localhost
