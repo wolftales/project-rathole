@@ -1,4 +1,4 @@
-# project-rathole
+# Project `Rathole`
 Onprem Private Cloud Automation Foundation
 
 ## Overview
