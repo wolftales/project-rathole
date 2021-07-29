@@ -9,7 +9,7 @@
       username:       admin
       password:       netapp1234
       api_endpoint:   https://192.168.7.225/api  # NetApp AIQUM API endpoint
-      
+
   vars_files:
   - vars/vars_psl_definitions.yml
 
@@ -17,7 +17,7 @@
   tasks:
 
   ##
-  # Validate contents of var: psl
+  # Validate contents of var: Performance Service Levels (psl)
   ##
     - debug:
         msg:
@@ -43,15 +43,15 @@
   #       accept: application/json
   #     body_format: json
   #     body:
-  #       name:                         "{{ psl.item }}"
-  #       description:                  "{{ psl.item.description }}"
+  #       name:                         "{{ item }}"
+  #       description:                  "{{ item.description }}"
   #       iops:
-  #        absolute_min_iops:           "{{ psl.item.iops.min }}"
-  #        expected_iops_per_tb:        "{{ psl.item.iops.expected }}"
+  #        absolute_min_iops:           "{{ item.iops.min }}"
+  #        expected_iops_per_tb:        "{{ item.iops.expected }}"
   #        peak_iops_allocation_policy: "used_space"
-  #        peak_iops_per_tb:            "{{ psl.item.iops.peak }}"
+  #        peak_iops_per_tb:            "{{ item.iops.peak }}"
   #       latency:
-  #        expected:                    "{{ psl.item.latency }}"
+  #        expected:                    "{{ item.latency }}"
   #     status_code: 201
   #   loop:  "{{ psl }}"
   #   register: post_result
