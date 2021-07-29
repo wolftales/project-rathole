@@ -28,9 +28,9 @@ AIQUM 9.9 OVA
 
 
 ### Ansible & Ansible AWX
-Ansible 2.9+
-ANsible AWX 13.0
-Collections:
+Ansible 2.9+  
+Ansible AWX 13.0  
+Collections:  
 * netapp.ontap
 * netapp.storagegrid
 
