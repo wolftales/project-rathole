@@ -14,3 +14,29 @@ cloud solution.
 4. Ansible & Ansible AWX
 5. NGINX
 6. VMware Infrastructure
+
+
+### ONTAP
+ONTAP 9.9.1 Simulator OVA's
+
+### StorageGRID
+StorageGRID 11.5 OVA's
+
+
+### ActiveIQ Unified Manager
+AIQUM 9.9 OVA
+
+
+### Ansible & Ansible AWX
+Ansible 2.9+
+ANsible AWX 13.0
+Collections:
+* netapp.ontap
+* netapp.storagegrid
+
+
+### NGINX
+
+
+### VMware Infrastructure
+VMware vCenter 7.0
