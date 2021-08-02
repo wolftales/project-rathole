@@ -60,5 +60,6 @@
           "PSL Syste-Defined":          "{{ item.system_defined }}"
         }
     name: 'Display API GET PSL results'
+    
     loop: "{{ get_result.json.records }}"
     # when: get_result.json.records.system_defined == 'true'
