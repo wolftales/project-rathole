@@ -2,6 +2,7 @@
 - hosts: localhost
   name: Configure Standard Performance Service Levels (PSLs)
   gather_facts: false
+  ignore_errors: true
 
   vars:
     aiqum:
@@ -65,3 +66,7 @@
     loop_control:
         label: "{{ item }}: {{ item.description}}"
     register: post_result
+  
+  - debug:
+      var: post_result
+    name: 'Display post_result'
