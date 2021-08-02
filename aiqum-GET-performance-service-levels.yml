@@ -35,33 +35,30 @@
   # Validate contents of var: Performance Service Levels (psl)
   ##
 
+  # Display everything - DUMP
   # - debug:
   #     var: get_result
   #   name: 'Display get_result'
   
+  # Narrow elements Displayed
   # - debug:
   #     msg: "{{ item }}"
   #   name: 'Display get_result'
   #   loop: "{{ get_result.json.records }}"
 
+  # Display Select(relevant) Informaiton from Performance Service Levels (PSLs)
   - debug:
-      msg:
+      msg: 
         {
-          "PSL Name": "{{ item.name }}",
-          "PSL Description": "{{ item.description }}"
+          "PSL Name":                   "{{ item.name }}",
+          "PSL Description":            "{{ item.description }}",
+          "PSL SLA (Expected)":         "{{ item.iops.expected_iops_per_tb }}",
+          "PSL SLO (Peak)":             "{{ item.iops.peak_iops_per_tb }}",
+          "PSL MIN IOPs":               "{{ item.iops.absolute_min_iops }}",
+          "PSL Peak Allocation Policy": "{{ item.iops.peak_iops_allocation_policy }}",
+          "PSL Latency":                "{{ item.latency }}",
+          "PSL Syste-Defined":          "{{ item.system_defined }}"
         }
-    name: 'Display get_result'
+    name: 'Display API GET PSL results'
     loop: "{{ get_result.json.records }}"
-  
-  # - debug:
-  #     msg:
-  #       {
-  #         "PSL Name": "{{ item.name }}",
-  #         "Description": "{{ item.description }}",
-  #         "Min IOPs": "{{ item.iops.min }}",
-  #         "Expected IOPs": "{{ item.iops.expected }}",
-  #         "Peak IOPs": "{{ item.iops.peak }}",
-  #         "Latency": "{{ item.latency }}"
-  #       }
-  #   loop: "{{ psl }}"
-  #   name: 'Display content of var: Performance Service Levels (psl)'
+    # when: get_result.json.records.system_defined == 'true'
