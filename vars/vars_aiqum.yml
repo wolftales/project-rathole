@@ -1,57 +1,7 @@
-# If there is no vcenter, use the esxi host crendentials
-# to complete the vcenter variables
-vcenter:
-  address:  192.168.7.121  # Can be an IP
-  username: administrator@vsphere.local
-  password: Netapp1!
-  datacenter: Datacenter  # If there is no vcenter, use 'ha-datacenter'
-  cluster: "Cluster1"  # "Resource Cluster"  # Default cluster for new VM provisioning. if there is no cluster set it to ""
+# AIQUM Credentials
+aiqum:
+  hostname:       192.168.7.225
+  username:       admin
+  password:       netapp1234
+  api_endpoint:   https://192.168.7.225/api  # NetApp AIQUM API endpoint
 
-# Credentials for a host with access to the datastore
-# Used when ISOs are missing from the ISO datastore
-
-# uncomment to test ESX target mode
-# vcenter_address: 192.168.123.49
-# vcenter_username: root
-# vcenter_password: P@ssw0rd
-# vcenter_datacenter: 'ha-datacenter'
-# vcenter_cluster: ""
-
-esxi:
-  address: 192.168.7.120
-  username: root
-  password: xqa-t33a
-
-  # If there is a vcenter, this must match the host's name in vcenter inventory
-  # if there is no vcenter, the name can be the IP address
-  hostname: "vmhost.example.local"
-
-# Default datastore for new VMs
-# vm_datastore: "TestVMs"
-vm_datastore: "datastore1"
-
-# Default datastore for ISO files
-iso_datastore: "ISOs"
-
-# Default portgroup for new VMs
-vm_network: "VM Network"
-
-vm:
-  name: AIQUM
-  vm_network: "VM Network"
-  ova: "ActiveIQUnifiedManager-9.9.ova"
-  username: admin
-  password: P@ssw0rd
-  #  ovf:class="org.linuxdistx"
-  #  These values will be used for Networking configuration
-  #
-  #  Networking configuration
-  #  Enables Auto IPv6 addressing for vApp.
-  #  IPV6Auto: false # ovf:type="boolean" ovf:userConfigurable="true" ovf:value="false">
-
-  hostname: "aiqum.example.local"   # Specifies the hostname for the appliance. Leave blank if DHCP is desired.
-  address: "192.168.7.225"          # Specifies the IP address for the appliance. Leave blank if DHCP is desired.
-  netmask: "255.255.255.0"          # Network Mask (or) Prefix Length. Leave blank if DHCP is desired.
-  gateway: "192.168.7.1"            # Specifies the gateway on the deployed network. Leave blank if DHCP is desired.
-  dns1: "192.168.7.3"               # Primary DNS ip address. Leave blank if DHCP is desired.
-  dns2: "8.8.8.8"                   # Secondary DNS ip address. Leave blank if DHCP is desired.

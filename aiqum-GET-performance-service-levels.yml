@@ -1,0 +1,67 @@
+---
+- hosts: localhost
+  name: GET Configured Performance Service Levels (PSLs)
+  gather_facts: false
+  # ignore_errors: true
+
+  vars:
+
+  vars_files:
+  - vars/vars_aiqum.yml
+
+
+  tasks:
+
+  ##
+  # AIQUM API calls - GET Performance Service Levels (PSLs)
+  ##
+
+  - name: GET new Performance Service Levels
+    uri:
+      url:              "{{ aiqum.api_endpoint }}/storage-provider/performance-service-levels"
+      user:             "{{ aiqum.username }}"
+      password:         "{{ aiqum.password }}"
+      force_basic_auth: yes
+      validate_certs:   no
+      method:           GET
+      headers:
+        content-Type:   application/json
+        accept:         application/json
+      body_format:      json
+      status_code:      200
+    register:           get_result
+
+  ##
+  # Validate contents of var: Performance Service Levels (psl)
+  ##
+
+  # - debug:
+  #     var: get_result
+  #   name: 'Display get_result'
+  
+  # - debug:
+  #     msg: "{{ item }}"
+  #   name: 'Display get_result'
+  #   loop: "{{ get_result.json.records }}"
+
+  - debug:
+      msg:
+        {
+          "PSL Name": "{{ item.name }}",
+          "PSL Description": "{{ item.description }}"
+        }
+    name: 'Display get_result'
+    loop: "{{ get_result.json.records }}"
+  
+  # - debug:
+  #     msg:
+  #       {
+  #         "PSL Name": "{{ item.name }}",
+  #         "Description": "{{ item.description }}",
+  #         "Min IOPs": "{{ item.iops.min }}",
+  #         "Expected IOPs": "{{ item.iops.expected }}",
+  #         "Peak IOPs": "{{ item.iops.peak }}",
+  #         "Latency": "{{ item.latency }}"
+  #       }
+  #   loop: "{{ psl }}"
+  #   name: 'Display content of var: Performance Service Levels (psl)'
