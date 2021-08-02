@@ -21,6 +21,9 @@ ONTAP 9.9.1 Simulator OVA's
 
 ### StorageGRID
 StorageGRID 11.5 OVA's
+* Admin node
+* Load-balancer (gateway) node
+* Storage nodes (x3)
 
 
 ### ActiveIQ Unified Manager
