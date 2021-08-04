@@ -18,6 +18,8 @@
   #     secret: true
   vars_files:
   - vars/vars_ontap_config_simple.yml
+  - vars/vars_ontap_config_role.yml
+
   collections:
   - netapp.ontap
 
