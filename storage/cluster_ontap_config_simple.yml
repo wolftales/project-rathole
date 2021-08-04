@@ -1,6 +1,6 @@
 ---
 - hosts: localhost
-  name: 'ONTAP Cluster Config: {{ cluster }}'
+  name: 'ONTAP Cluster Config: {{ cluster.name }}'
   gather_facts: no
   vars:
     state: present
@@ -17,8 +17,8 @@
   #     prompt: NetApp 'admin' password
   #     secret: true
   vars_files:
-  - vars/vars_ontap_config_simple.yml
-  - vars/vars_ontap_config_role.yml
+  - ../vars/vars_ontap_config_simple.yml
+  - ../vars/vars_ontap_config_role.yml
 
   collections:
   - netapp.ontap
@@ -42,7 +42,7 @@
 
   ###
   # Role-Based Configuration
-  # Note: Based on collection(s) 
+  # Note: Based on collection(s)
   #  - netapp.ontap 21.8.1
   ###
 
@@ -128,7 +128,7 @@
       https:                true
       validate_certs:       "{{ validate_certs }}"
 
-    with_items:             "{{ asup.config }}"
+    with_items:             "{{ asup_config }}"
 
     when: asup_config is defined and asup_config != None
 
