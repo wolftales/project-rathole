@@ -10,9 +10,9 @@ aqos_std:
     expected_iops: 100,
     peak_iops: 512 }
 # - { name: bulk, svm: "{{ svm }}", peak_iops_allocation: used_space,
-    absolute_min_iops: 75IOPS,
-    expected_iops: 100IOPS/TB,
-    peak_iops: 512IOPS/TB }
+    # absolute_min_iops: 75IOPS,
+    # expected_iops: 100IOPS/TB,
+    # peak_iops: 512IOPS/TB }
 - { name: disk_value, svm: "{{ svm }}", peak_iops_allocation: used_space,
     absolute_min_iops: 75,
     expected_iops: 128,
@@ -53,43 +53,43 @@ aqos_db:
 # Note: Testing autosave feature . . .
 ###
 aqos:
-- bulk:
+- name: bulk
   svm: "{{ svm }}"
   description:
   peak_iops_allocation: used_space
-  absolute_min_iops: 75IOPS,
-  expected_iops: 100IOPS/TB,
-  peak_iops: 512IOPS/TB
+  absolute_min_iops: 75
+  expected_iops: 100
+  peak_iops: 512
 
-- value:
+- name: value
   svm: "{{ svm }}"
   peak_iops_allocation: used_space
-  absolute_min_iops: 128IOPS,
-  expected_iops: 128IOPS/TB,
-  peak_iops: 512IOPS/TB
+  absolute_min_iops: 128
+  expected_iops: 128
+  peak_iops: 512
 
-- standard:
+- name: standard
   svm: "{{ svm }}"
   peak_iops_allocation: used_space
-  absolute_min_iops: 256IOPS
-  expected_iops: 256IOPS/TB
-  peak_iops: 512IOPS/TB
+  absolute_min_iops: 256
+  expected_iops: 256
+  peak_iops: 512
 
-- premium:
+- name: premium
   svm: "{{ svm }}"
   peak_iops_allocation: used_space
   absolute_min_iops: 1024
   expected_iops: 2048
   peak_iops: 4096
 
-- extreme:
+- name: extreme
   svm: "{{ svm }}"
   peak_iops_allocation: used_space
   absolute_min_iops: 3072
   expected_iops: 6144
   peak_iops: 12288
 
-- ultra:
+- name: ultra
   svm: "{{ svm }}"
   peak_iops_allocation: used_space
   absolute_min_iops: 8000
