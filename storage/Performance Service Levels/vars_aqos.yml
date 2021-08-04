@@ -1,0 +1,67 @@
+netapp_hostname:  192.168.7.200
+netapp_username:  admin
+
+state:            present
+svm:              ontap-vs01
+
+aqos_db:
+- { name: db_data, svm: "{{ svm }}", peak_iops_allocation: allocated_space,
+    absolute_min_iops:   8000,
+    expected_iops:       12288,
+    peak_iops:           12288 }
+- { name: db_shared, svm: "{{ svm }}", peak_iops_allocation: allocated_space,
+    absolute_min_iops:   8000,
+    expected_iops:       16384,
+    peak_iops:           16384 }
+- { name: db_log, svm: "{{ svm }}", peak_iops_allocation: allocated_space,
+    absolute_min_iops:   8000,
+    expected_iops:       22528,
+    peak_iops:           22528 }
+
+###
+# Updated Performance Service Levels
+# Note: Testing autosave feature . . .
+###
+aqos:
+- name: bulk
+  svm: "{{ svm }}"
+  description:
+  peak_iops_allocation: used_space
+  absolute_min_iops: 75
+  expected_iops: 100
+  peak_iops: 512
+
+- name: value
+  svm: "{{ svm }}"
+  peak_iops_allocation: used_space
+  absolute_min_iops: 128
+  expected_iops: 128
+  peak_iops: 512
+
+- name: standard
+  svm: "{{ svm }}"
+  peak_iops_allocation: used_space
+  absolute_min_iops: 256
+  expected_iops: 256
+  peak_iops: 512
+
+- name: premium
+  svm: "{{ svm }}"
+  peak_iops_allocation: used_space
+  absolute_min_iops: 1024
+  expected_iops: 2048
+  peak_iops: 4096
+
+- name: extreme
+  svm: "{{ svm }}"
+  peak_iops_allocation: used_space
+  absolute_min_iops: 3072
+  expected_iops: 6144
+  peak_iops: 12288
+
+- name: ultra
+  svm: "{{ svm }}"
+  peak_iops_allocation: used_space
+  absolute_min_iops: 8000
+  expected_iops: 18432
+  peak_iops: 36864
