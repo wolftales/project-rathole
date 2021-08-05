@@ -101,19 +101,19 @@
     validate_certs: no
     name:       '{{ vm_name }}'
     disk:
-    - state: absent
-      controller_type: lsilogic
+    - state:            absent
+      controller_type:  lsilogic
       controller_number: 0
-      unit_number: 1
-    - state: absent
-      controller_type: lsilogic
+      unit_number:       1
+    - state:            absent
+      controller_type:  lsilogic
       controller_number: 0
-      unit_number: 2
-    - state: absent
-      controller_type: lsilogic
+      unit_number:       2
+    - state:            absent
+      controller_type:  lsilogic
       controller_number: 0
-      unit_number: 3
-  delegate_to: localhost
+      unit_number:       3
+  delegate_to:          localhost
   when: node_type == "VM_Storage_Node"
 
 - name: Adjust VM Disk Sizing - recreate
@@ -125,25 +125,25 @@
     name:       '{{ vm_name }}'
     state: present
     disk:
-    - size_gb:    "{{ storage_disk_size|int }}"
-      controller_type: lsilogic
+    - size_gb:          "{{ storage_disk_size|int }}"
+      controller_type:  lsilogic
       controller_number: 0
-      unit_number: 1
-      datastore:  '{{ vcenter.datastore }}'
-      type:       thin
-    - size_gb:    "{{ storage_disk_size|int }}"
-      controller_type: lsilogic
+      unit_number:       1
+      datastore:        '{{ vcenter.datastore }}'
+      type:             thin
+    - size_gb:          "{{ storage_disk_size | int }}"
+      controller_type:  lsilogic
       controller_number: 0
-      unit_number: 2
-      datastore:  '{{ vcenter.datastore }}'
-      type: thin
-    - size_gb:    "{{ storage_disk_size|int }}"
-      controller_type: lsilogic
+      unit_number:       2
+      datastore:        '{{ vcenter.datastore }}'
+      type:             thin
+    - size_gb:          "{{ storage_disk_size | int }}"
+      controller_type:  lsilogic
       controller_number: 0
-      unit_number: 3
-      datastore:  '{{ vcenter.datastore }}'
-      type: thin
-  delegate_to: localhost
+      unit_number:       3
+      datastore:        '{{ vcenter.datastore }}'
+      type:             thin
+  delegate_to:          localhost
   when: node_type == "VM_Storage_Node"
 
 - name: Change T-Shirt
