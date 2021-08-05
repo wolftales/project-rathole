@@ -2,8 +2,10 @@
 - name: Build StorageGrid from OVA
   hosts: localhost
   gather_facts: false
+
   vars_files:
     - ../vars/vars_vm_deploy_StorageGrid.yml
+
   tasks:
 
     # Deploy Admin Node
