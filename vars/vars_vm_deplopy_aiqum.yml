@@ -38,14 +38,14 @@ vm_datastore: "datastore1"
 iso_datastore: "ISOs"
 
 # Default portgroup for new VMs
-vm_network: "VM Network"
+vm_network:   "VM Network"
 
 vm:
   name: AIQUM
   vm_network: "VM Network"
-  ova: "ActiveIQUnifiedManager-9.9.ova"
-  username: admin
-  password: P@ssw0rd  # Password used during deployment
+  ova:        "ActiveIQUnifiedManager-9.9.ova"
+  username:   admin
+  password:   P@ssw0rd  # Password used during deployment
   #  ovf:class="org.linuxdistx"
   #  These values will be used for Networking configuration
   #
@@ -53,9 +53,9 @@ vm:
   #  Enables Auto IPv6 addressing for vApp.
   #  IPV6Auto: false # ovf:type="boolean" ovf:userConfigurable="true" ovf:value="false">
 
-  hostname: "aiqum.example.local"   # Specifies the hostname for the appliance. Leave blank if DHCP is desired.
-  address: "192.168.7.225"          # Specifies the IP address for the appliance. Leave blank if DHCP is desired.
-  netmask: "255.255.255.0"          # Network Mask (or) Prefix Length. Leave blank if DHCP is desired.
-  gateway: "192.168.7.1"            # Specifies the gateway on the deployed network. Leave blank if DHCP is desired.
-  dns1: "192.168.7.3"               # Primary DNS ip address. Leave blank if DHCP is desired.
-  dns2: "8.8.8.8"                   # Secondary DNS ip address. Leave blank if DHCP is desired.
+  hostname:   "aiqum.example.local"   # Specifies the hostname for the appliance. Leave blank if DHCP is desired.
+  address:    "192.168.7.225"          # Specifies the IP address for the appliance. Leave blank if DHCP is desired.
+  netmask:    "255.255.255.0"          # Network Mask (or) Prefix Length. Leave blank if DHCP is desired.
+  gateway:    "192.168.7.1"            # Specifies the gateway on the deployed network. Leave blank if DHCP is desired.
+  dns1:       "192.168.7.3"               # Primary DNS ip address. Leave blank if DHCP is desired.
+  dns2:       "8.8.8.8"                   # Secondary DNS ip address. Leave blank if DHCP is desired.

@@ -2,15 +2,15 @@
 #- name: variables processing
 - set_fact:
     ovf_version:      "{{ovf_version | default('11.5.0')}}"
-    ovf_location:     "{{ovf_location | default('files/StorageGRID-Webscale-{{ovf_version}}/vsphere') }}"
+    ovf_location:     "{{ovf_location | default('../files/StorageGRID-Webscale-{{ovf_version}}/vsphere') }}"
     # ovf_file:         "{{ovf_file | default('files/StorageGRID-Webscale-{{ovf_version}}/vsphere/vsphere-primary-admin.ovf')}}"
     # ovf_url:          "{{ovf_url | default('https://mysupport.netapp.com/you/cant/get/there/from/here.ova')}}"
     vm_name:          "{{vm_name | default('sgws-admin') }}"
     vm_network:       "{{vm_network | default('VM Network') }}"
     vm_num_cpus:      "{{vm_num_cpus | default(4) }}"
     vm_memory_mb:     "{{vm_memory_mb | default(12288) }}"
-    node_type:        "{{node_type | default('VM_Storage_Node') }}" #"VM_Storage_Node", "VM_Admin_Node", "VM_API_Gateway", "VM_Archive_Node"}' ovf:value="VM_Admin_Node">
-    admin_role:       "{{admin_role | default ('Primary')}}" # Primary, Non-Primary
+    node_type:        "{{node_type | default('VM_Storage_Node') }}"  #"VM_Storage_Node", "VM_Admin_Node", "VM_API_Gateway", "VM_Archive_Node"}' ovf:value="VM_Admin_Node">
+    admin_role:       "{{admin_role | default ('Primary')}}"  # Primary, Non-Primary
     storage_disk_size: "{{storage_disk_size | default(200)}}"
 - set_fact:
     ovf_file:        "{{ovf_file | default('{{ovf_location}}/vsphere-primary-admin.ovf')}}"
@@ -86,18 +86,18 @@
       #PORT_REMAP: ""
       #PORT_REMAP_INBOUND: ""
 
-  delegate_to: localhost
-  retries: 10
-  delay: 60
-  register: result
+  delegate_to:  localhost
+  retries:      2
+  delay:        60
+  register:     result
   until: result is succeeded
 
 - name: Adjust VM Disk Sizing - remove
   community.vmware.vmware_guest_disk:
-    hostname:   '{{ vcenter_address }}'
-    username:   '{{ vcenter_username }}'
-    password:   '{{ vcenter_password }}'
-    datacenter: '{{ vcenter_datacenter }}'
+    hostname:   '{{ vcenter.address }}'
+    username:   '{{ vcenter.username }}'
+    password:   '{{ vcenter.password }}'
+    datacenter: '{{ vcenter.datacenter }}'
     validate_certs: no
     name:       '{{ vm_name }}'
     disk:
@@ -118,9 +118,9 @@
 
 - name: Adjust VM Disk Sizing - recreate
   community.vmware.vmware_guest:
-    hostname:   '{{ vcenter_address }}'
-    username:   '{{ vcenter_username }}'
-    password:   '{{ vcenter_password }}'
+    hostname:   '{{ vcenter.address }}'
+    username:   '{{ vcenter.username }}'
+    password:   '{{ vcenter.password }}'
     validate_certs: no
     name:       '{{ vm_name }}'
     state: present
@@ -129,41 +129,41 @@
       controller_type: lsilogic
       controller_number: 0
       unit_number: 1
-      datastore:  '{{ vm_datastore }}'
+      datastore:  '{{ vcenter.datastore }}'
       type:       thin
     - size_gb:    "{{ storage_disk_size|int }}"
       controller_type: lsilogic
       controller_number: 0
       unit_number: 2
-      datastore:  '{{vm_datastore}}'
+      datastore:  '{{ vcenter.datastore }}'
       type: thin
     - size_gb:    "{{ storage_disk_size|int }}"
       controller_type: lsilogic
       controller_number: 0
       unit_number: 3
-      datastore:  '{{vm_datastore}}'
+      datastore:  '{{ vcenter.datastore }}'
       type: thin
   delegate_to: localhost
   when: node_type == "VM_Storage_Node"
 
 - name: Change T-Shirt
   community.vmware.vmware_guest:
-    hostname:   '{{ vcenter_address }}'
-    username:   '{{ vcenter_username }}'
-    password:   '{{ vcenter_password }}'
+    hostname:   '{{ vcenter.address }}'
+    username:   '{{ vcenter.username }}'
+    password:   '{{ vcenter.password }}'
     validate_certs: no
     name:       '{{ vm_name }}'
     state: present
     hardware:
-      memory_mb: '{{ vm_memory_mb|int }}'
-      num_cpus: '{{ vm_num_cpus|int }}'
+      memory_mb: '{{ vm_memory_mb | int }}'
+      num_cpus:   '{{ vm_num_cpus | int }}'
   delegate_to: localhost
 
 - name: Power-On the virtual machine
   community.vmware.vmware_guest:
-    hostname:   '{{ vcenter_address }}'
-    username:   '{{ vcenter_username }}'
-    password:   '{{ vcenter_password }}'
+    hostname:   '{{ vcenter.address }}'
+    username:   '{{ vcenter.username }}'
+    password:   '{{ vcenter.password }}'
     validate_certs: no
     name:       '{{ vm_name }}'
     state: poweredon
