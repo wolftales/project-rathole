@@ -1,9 +1,7 @@
 ###
-# Credentials for deploying a VM for AIQUM
+# Credentials for deploying a VM for StorageGRID nodes
 ###
 
-# If there is no vcenter, use the esxi host crendentials
-# to complete the vcenter variables
 vcenter:
   address:    192.168.7.121  # Can be an IP
   username:   administrator@vsphere.local
@@ -12,6 +10,9 @@ vcenter:
   cluster:    "Cluster1"  # "Resource Cluster"  # Default cluster for new VM provisioning. if there is no cluster set it to ""
   datastore:  "datastore1"
 
+###
+# StorageGRID Configuration
+###
 network:
   admin_ip:             192.168.7.215
   # admin_netmask:
@@ -22,6 +23,8 @@ network:
   grid_netmask:         "255.255.255.0"
   grid_gateway:         "192.168.7.1"
 
+###
+# StorageGRID VM Resource settings - Not in use
 vm-resources:   # all are normally 8 x 24 GB
   sgadmin:
     vmem:     12288  # 12 GB
@@ -34,7 +37,10 @@ vm-resources:   # all are normally 8 x 24 GB
     vcpu:     1
 
 sg:
-  sgadmin:
+
+###
+# StorageGRID Admin Nodes
+  sgadmin:  # Primary
     ovf_version:          "11.5.0"
     name:                 "TEST-SGWS-Admin"
     vm_network:           "VM Network"
@@ -46,7 +52,7 @@ sg:
     grid_network_config:  "STATIC" # "STATIC", "DHCP"
     grid_network_ip:      "{{ network.admin_ip }}"
 
-  sgadmin2:
+  sgadmin2:  # Non-Primary
     ovf_version:          "11.5.0"
     vm_name:              "TEST-SGWS-Admin2"
     vm_network:           "VM Network"
@@ -59,7 +65,8 @@ sg:
     grid_network_config:  "STATIC" # "STATIC", "DHCP"
     grid_network_ip:      "192.168.7.216"
 
-
+###
+# StorageGRID Gateway Node
   sggw:
     ovf_version:          "11.5.0"
     vm_name:              "TEST-SGWS-Gateway"
@@ -72,6 +79,8 @@ sg:
     grid_network_config:  "STATIC" # "STATIC", "DHCP"
     grid_network_ip:      "192.168.7.210"
 
+###
+# StorageGRID Storage Nodes
   sgsnode1:
     ovf_version:          "11.5.0"
     vm_name:              "TEST-SGWS-Storage1"
