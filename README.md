@@ -18,12 +18,19 @@ cloud solution.
 
 ### ONTAP
 ONTAP 9.9.1 Simulator OVA's
+* VSIM (x2) - non-HA
+* Single cluster
+* Ethernet (x6)
+    * e0a & e0b - clus1 & clus2
+    * e0c - intercluster, node & cluster_mgmt
+    * e0d - SVM LIFs 
+    * e0e & e0f - ifgrp a0a
 
 ### StorageGRID
 StorageGRID 11.5 OVA's
-* Admin node
-* Load-balancer (gateway) node
-* Storage nodes (x3)
+* Admin node (x2)
+* Load-balancer (gateway) node (x1)
+* Storage nodes (x4)
 
 
 ### ActiveIQ Unified Manager
