@@ -14,53 +14,43 @@
     storage_disk_size: "{{storage_disk_size | default(200)}}"
 
 # # Display VM Varibles for StorageGRID Deply
-- debug:
-    msg: 
-      {
-        "OVF Version":                     "{{ ovf_version }}",
-        "OVF Location":                    "{{ ovf_location }}",
-        "VM Name":                         "{{ vm_name }}",
-        "VM Admin Role":                   "{{ admin_role }}",
-        "VM Node Type":                    "{{ node_type }}"
-      }
-  name: 'Display VM task vars'
+# - debug:
+#     msg: 
+#       {
+#         "OVF Version":                     "{{ ovf_version }}",
+#         "OVF Location":                    "{{ ovf_location }}",
+#         "VM Name":                         "{{ vm_name }}",
+#         "VM Admin Role":                   "{{ admin_role }}",
+#         "VM Node Type":                    "{{ node_type }}"
+#       }
+#   name: 'Display VM task vars'
 
-- set_fact:
-  # name: 'set_fact: Primary-Admin'
+- name: 'set_fact: Primary-Admin'
+  set_fact:
     ovf_file:        "{{ovf_location}}/vsphere-primary-admin.ovf"
   when:
     - node_type == "VM_Admin_Node" and admin_role == "Primary"
-    # - admin_role == "Primary"
-- set_fact:
-  # name: 'set_fact: Non-Primary-Admin'
+- name: 'set_fact: Non-Primary-Admin'
+  set_fact:
     ovf_file:       "{{ovf_location}}/vsphere-non-primary-admin.ovf"
   when:
     - node_type == "VM_Admin_Node" and admin_role == "Non-Primary"
-    # - admin_role == "Non-Primary"
-- set_fact:
-  # name: 'set_fact: Storage'
+- name: 'set_fact: Storage'
+  set_fact:
     ovf_file:     "{{ovf_location}}/vsphere-storage.ovf"
   when:
     - node_type == "VM_Storage_Node"
-- set_fact:
-  # name: 'set_fact: Gateway'
+- name: 'set_fact: Gateway'
+  set_fact:
     ovf_file:     "{{ovf_location}}/vsphere-gateway.ovf"
   when:
     - node_type == "VM_API_Gateway"
-- set_fact:
-  # name: 'set_fact: Archive'
+- name: 'set_fact: Archive'
+  set_fact:
+  
     ovf_file:     "{{ovf_location}}/vsphere-archive.ovf"
   when:
     - node_type == "VM_Archive_Node"
-
-# # Display OVF_file Varible
-- debug:
-    msg: 
-      {
-        "Node Type":                     "{{ node_type }}",
-        "Admin Role":                     "{{ admin_role }}"
-      }
-  name: 'Display VM Type & Role'
 
 - vmware_deploy_ovf:
     hostname:     '{{ vcenter.address }}'
