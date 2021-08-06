@@ -53,7 +53,8 @@
   when:
     - node_type == "VM_Archive_Node"
 
-- vmware_deploy_ovf:
+- name: "VM Deploy: Type: {{ node_type }} Name: {{ vm_name }}"
+  vmware_deploy_ovf:
     hostname:           '{{ vcenter.address }}'
     username:           '{{ vcenter.username }}'
     password:           '{{ vcenter.password }}'
@@ -179,7 +180,7 @@
       num_cpus:     '{{ vm_num_cpus | int }}'
   delegate_to:      localhost
 
-- name: Power-On the virtual machine
+- name: "Power-On the virtual machine: {{ vm_name }}"
   community.vmware.vmware_guest:
     hostname:       '{{ vcenter.address }}'
     username:       '{{ vcenter.username }}'
