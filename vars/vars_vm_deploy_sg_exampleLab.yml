@@ -8,7 +8,7 @@ vcenter:
   password:   Netapp1!
   datacenter: Datacenter  # If there is no vcenter, use 'ha-datacenter'
   cluster:    "Cluster1"  # "Resource Cluster"  # Default cluster for new VM provisioning. if there is no cluster set it to ""
-  datastore:  "datastore1"
+  datastore:  "datastore1"  # 
 
 ###
 # StorageGRID Configuration
