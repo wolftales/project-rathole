@@ -1,17 +1,18 @@
 ---
-#- name: variables processing
-- set_fact:
-    ovf_version:      "{{ovf_version | default('11.5.0')}}"
-    ovf_location:     "{{ovf_location | default('../files/StorageGRID-Webscale-{{ovf_version}}/vsphere') }}"
-    # ovf_file:         "{{ovf_file | default('files/StorageGRID-Webscale-{{ovf_version}}/vsphere/vsphere-primary-admin.ovf')}}"
-    # ovf_url:          "{{ovf_url | default('https://mysupport.netapp.com/you/cant/get/there/from/here.ova')}}"
-    vm_name:          "{{vm_name | default('sgws-admin') }}"
-    vm_network:       "{{vm_network | default('VM Network') }}"
-    vm_num_cpus:      "{{vm_num_cpus | default(4) }}"
-    vm_memory_mb:     "{{vm_memory_mb | default(12288) }}"
-    node_type:        "{{node_type | default('VM_Storage_Node') }}"  #"VM_Storage_Node", "VM_Admin_Node", "VM_API_Gateway", "VM_Archive_Node"}' ovf:value="VM_Admin_Node">
-    admin_role:       "{{admin_role | default ('Primary')}}"  # Primary, Non-Primary
-    storage_disk_size: "{{storage_disk_size | default(200)}}"
+# Ensures all varibles are defined || defaults accordingly
+- name: Variables Processing
+  set_fact:
+    ovf_version:       "{{ ovf_version | default('11.5.0') }}"
+    ovf_location:      "{{ ovf_location | default('../files/StorageGRID-Webscale-{{ovf_version}}/vsphere') }}"
+    # ovf_file:         "{{ ovf_file | default('files/StorageGRID-Webscale-{{ovf_version}}/vsphere/vsphere-primary-admin.ovf') }}"
+    # ovf_url:          "{{ ovf_url | default('https://mysupport.netapp.com/you/cant/get/there/from/here.ova') }}"
+    vm_name:           "{{ vm_name | default('sgws-admin') }}"
+    vm_network:        "{{ vm_network | default('VM Network') }}"
+    vm_num_cpus:       "{{ vm_num_cpus | default(4) }}"
+    vm_memory_mb:      "{{ vm_memory_mb | default(12288) }}"
+    node_type:         "{{ node_type | default('VM_Storage_Node') }}"  # "VM_Storage_Node", Default="VM_Admin_Node", "VM_API_Gateway", "VM_Archive_Node"
+    admin_role:        "{{ admin_role | default('Primary') }}"  # Primary, Non-Primary
+    storage_disk_size: "{{ storage_disk_size | default(200) }}"
 
 # # Display VM Varibles for StorageGRID Deply
 # - debug:
@@ -27,28 +28,28 @@
 
 - name: 'set_fact: Primary-Admin'
   set_fact:
-    ovf_file:        "{{ovf_location}}/vsphere-primary-admin.ovf"
+    ovf_file:        "{{ ovf_location }}/vsphere-primary-admin.ovf"
   when:
     - node_type == "VM_Admin_Node" and admin_role == "Primary"
 - name: 'set_fact: Non-Primary-Admin'
   set_fact:
-    ovf_file:         "{{ovf_location}}/vsphere-non-primary-admin.ovf"
+    ovf_file:         "{{ ovf_location }}/vsphere-non-primary-admin.ovf"
   when:
     - node_type == "VM_Admin_Node" and admin_role == "Non-Primary"
 - name: 'set_fact: Storage'
   set_fact:
-    ovf_file:         "{{ovf_location}}/vsphere-storage.ovf"
+    ovf_file:         "{{ ovf_location }}/vsphere-storage.ovf"
   when:
     - node_type == "VM_Storage_Node"
 - name: 'set_fact: Gateway'
   set_fact:
-    ovf_file:         "{{ovf_location}}/vsphere-gateway.ovf"
+    ovf_file:         "{{ ovf_location }}/vsphere-gateway.ovf"
   when:
     - node_type == "VM_API_Gateway"
 - name: 'set_fact: Archive'
   set_fact:
   
-    ovf_file:         "{{ovf_location}}/vsphere-archive.ovf"
+    ovf_file:         "{{ ovf_location }}/vsphere-archive.ovf"
   when:
     - node_type == "VM_Archive_Node"
 
@@ -70,7 +71,7 @@
     inject_ovf_env:     true
     properties:
 
-      NODE_NAME: "{{ovf_hostname}}"
+      NODE_NAME: "{{ ovf_hostname }}"
       #NODE_TYPE: "{{ node_type }}"
       #ADMIN_ROLE: "{{ admin_role }}"
 
@@ -98,7 +99,7 @@
       ADMIN_NETWORK_GATEWAY:  "0.0.0.0" #The admin network gateway for this node (must be on the admin network subnet).
       ADMIN_NETWORK_ESL:      "" # a comma-separated list of subnets that will communicate with this node through its admin network gateway. This list will be used to create static routes. Use CIDR notation. For example, 10.10.10.0/24,192.168.100.0/24,172.16.0.0/16
       ADMIN_NETWORK_MTU:      "1400"
-      ADMIN_IP:               "{{admin_ip | default(omit)}}"
+      ADMIN_IP:               "{{ admin_ip | default(omit) }}"
 
       #Advanced
       #PORT_REMAP: ""
