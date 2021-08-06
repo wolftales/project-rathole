@@ -17,7 +17,8 @@
   #     prompt: NetApp 'admin' password
   #     secret: true
   vars_files:
-  - ../vars/vars_ontap_config_simple.yml
+  - ../vars/vars_ontap_config_redshirt.yml
+  # - ../vars/vars_ontap_config_sandbox.yml
   - ../vars/vars_ontap_config_role.yml
 
   collections:
