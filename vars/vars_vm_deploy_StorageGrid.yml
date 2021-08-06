@@ -1,7 +1,7 @@
 ###
 # Credentials for deploying a VM for AIQUM
 ###
-
+ 
 # If there is no vcenter, use the esxi host crendentials
 # to complete the vcenter variables
 vcenter:

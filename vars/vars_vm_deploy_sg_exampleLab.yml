@@ -17,7 +17,7 @@ network:
   admin_ip:             192.168.7.215
   # admin_netmask:
   # admin_gateway:
-  client_netmask:
+  client_netmask:       
   client_gateway:
   grid_network_config:  "STATIC"
   grid_netmask:         "255.255.255.0"
@@ -48,7 +48,7 @@ sg:
     vm_num_cpus:          1
     ovf_hostname:         "sgws-admin"
     node_type:            "VM_Admin_Node"
-    # admin_role:           "Primary"
+    # admin_role:          "Primary"  # Defaults to "Primary-Admin"
     grid_network_config:  "STATIC" # "STATIC", "DHCP"
     grid_network_ip:      "{{ network.admin_ip }}"
 

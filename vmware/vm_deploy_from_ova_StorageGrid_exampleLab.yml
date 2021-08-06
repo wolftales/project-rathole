@@ -4,8 +4,7 @@
   gather_facts: false
 
   vars_files:
-  - ../vars/vars_vm_deploy_StorageGrid.yml
-  - ../vars/vars_sg_exampleLab.yml
+  - ../vars/vars_vm_deploy_sg_exampleLab.yml
 
   tasks:
 
@@ -95,8 +94,8 @@
         ovf_version:            "11.5.0"
         vm_name:                "TEST-SGWS-Gateway"
         vm_network:             "VM Network"
-        vm_memory_mb:           24567
-        vm_num_cpus:            4
+        vm_memory_mb:           8192  # 24567
+        vm_num_cpus:            1  # 4
         ovf_hostname:           "sgws-gateway"
         node_type:              "VM_API_Gateway"
         admin_ip:               "{{ network.admin_ip }}"

@@ -1,6 +1,9 @@
 ###
 #  Ansible vars file sample for role configuration varibles: basic ONTAP cluster & vserver config
-#  Note:
+#  Note:  Supports 2 X ONTAP VSIMs within a single cluster. 
+#  Each has:
+#     6 X network ports
+#     40+ disks
 ###
 
 ###
@@ -67,7 +70,7 @@ vservers:  # Vservers to create # aggr_list is optional.  If not specified, defa
 
 vserver_dns:  # DNS at the Vserver level
 - { vserver: "{{ svm }}", dns_domains: "{{ svm_dns_domain }}", dns_nameservers: "{{ svm_dns_srvrs }}" }
-# - { vserver: "{{ svm }}", dns_domains: example.com, dns_nameservers: 8.8.8.8 }
+# - { vserver: "{{ svm }}", dns_domains: example.com, dns_nameservers: 8.8.8.8 }  # incase no DNS is available locally
 
 lifs:  # interfaces for the Vservers being created
 - { name: "{{ svm }}_data1", vserver: "{{ svm }}", node: "{{ clus.name }}-01", port: a0a, protocol: nfs,
