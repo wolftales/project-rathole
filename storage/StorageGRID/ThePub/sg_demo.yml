@@ -4,7 +4,7 @@
   collections:
     - netapp.storagegrid
   vars_files:
-    vars_sg.yaml
+    - sg_vars.yaml
   vars_prompt:
     - name:   grid_username
       prompt: What is your username for StorageGRID?
@@ -13,7 +13,7 @@
       private: yes
 
   tasks:
-  
+
   - name: Get grid authorization token
     uri:
       url: "{{ grid_admin_base_url }}/api/v3/authorize"

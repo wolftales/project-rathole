@@ -1,0 +1,27 @@
+---
+- hosts: localhost
+  gather_facts: no
+  collections:
+  - netapp.storagegrid
+  vars_files:
+  - vars_sg.yml
+
+  tasks:
+  - name: Get grid authorization token
+    uri:
+      url: "{{ grid_admin_base_url }}/api/v3/authorize"
+      method: POST
+      body: {
+        "username": "{{ grid_username }}",
+        "password": "{{ grid_password }}",
+        "cookie": false,
+        "csrfToken": false
+      }
+      body_format: json
+      validate_certs: false
+    register: auth
+  
+  - debug:
+      msg:
+      - "{{ auth.json.data }}"
+    name: Display 'auth' data

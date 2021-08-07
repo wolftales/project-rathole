@@ -4,4 +4,5 @@
 *.ovf
 .DS_Store
 files/StorageGRID-Webscale-11.5.0/
+secure/
 password.yml

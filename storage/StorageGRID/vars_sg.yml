@@ -1,30 +1,9 @@
-###
-# Sample
-###
+grid_admin_base_url:        https://192.168.7.215
+grid_admin_username:        root
+grid_admin_password:        netapp1234
+grid_passphrase:            netapp1234
 
-# This top section contains the  connection information to the API.
-# The base url is used for both tenant and grid operations
-grid_admin_base_url:  https://192.168.7.215
-grid_username:        root
-grid_password:        netapp1234
-
-# This section contains the tenant specific information
-tenant_username:      root
-tenant_password:      netapp1234
-tenant_name:          storagegrid-workshop
-tenant_quota:         200
-tenant_bucket:
-- ansible-bucket
-- storagegrid-integration
-- bucket-elasticsearch
-- gold
-- silver 
-- bronze
-- cloudmirror-destination
-tenant_group: ansible-group
-tenant_group_description: "Ansible Group"
-tenant_users:
-  - bill
-  - ted
-tenant_platform_services: true
-tenant_use_own_identity_source: false
+###
+# StorageGRID Configuration Varibles
+grid_dns_srvs: 192.168.7.3,8.8.8.8,8.8.4.4
+grid_ntp_srvs: '216.239.35.0,168.61.215.74,17.253.2.125'  # time.google.com,time.windows.com,time.apple.com
