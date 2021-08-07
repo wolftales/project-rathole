@@ -10,3 +10,5 @@ References:
 Automating StorageGRID Operations with Ansible
 https://netapp.io/2020/06/26/Automating-StorageGRID-Operations-with-Ansible/
 
+Adrian Bronder's NetApp Automationo repo
+https://github.com/AdrianBronder/ntap-automation 
