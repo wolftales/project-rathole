@@ -12,7 +12,7 @@
       api_endpoint:   https://192.168.7.225/api  # NetApp AIQUM API endpoint
 
   vars_files:
-  - ../vars/vars_psl_definitions.yml
+  - ../vars/vars_aigum_psl_definitions.yml
 
 
   tasks:

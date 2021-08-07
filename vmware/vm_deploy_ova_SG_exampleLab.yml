@@ -94,8 +94,8 @@
       ovf_version:            "11.5.0"
       vm_name:                "TEST-SGWS-Gateway"
       vm_network:             "VM Network"
-      vm_memory_mb:           8192  # 24567
-      vm_num_cpus:            1  # 4
+      vm_memory_mb:           12288  # 24567
+      vm_num_cpus:            2  # 4
       ovf_hostname:           "sgws-gateway"
       node_type:              "VM_API_Gateway"
       admin_ip:               "{{ network.admin_ip }}"
@@ -105,18 +105,18 @@
       grid_network_gateway:   "{{ network.grid_gateway }}"
 
   # Deploy Non-Primary Admin Node
-  - include_tasks: ../tasks/Build_StorageGrid_from_OVA.yml
-    vars:
-      ovf_version:            "11.5.0"
-      vm_name:                "TEST-SGWS-Admin2"
-      vm_network:             "VM Network"
-      vm_memory_mb:           12288
-      vm_num_cpus:            1
-      ovf_hostname:           "sgws-admin2"
-      node_type:              "VM_Admin_Node"
-      admin_role:             "Non-Primary"
-      admin_ip:               "{{ network.admin_ip }}"
-      grid_network_config:    "STATIC"    # "STATIC", "DHCP"
-      grid_network_ip:        "{{ sg.sgadmin2.grid_network_ip }}"
-      grid_network_mask:      "{{ network.grid_netmask }}"
-      grid_network_gateway:   "{{ network.grid_gateway }}"
+  # - include_tasks: ../tasks/Build_StorageGrid_from_OVA.yml
+  #   vars:
+  #     ovf_version:            "11.5.0"
+  #     vm_name:                "TEST-SGWS-Admin2"
+  #     vm_network:             "VM Network"
+  #     vm_memory_mb:           12288
+  #     vm_num_cpus:            1
+  #     ovf_hostname:           "sgws-admin2"
+  #     node_type:              "VM_Admin_Node"
+  #     admin_role:             "Non-Primary"
+  #     admin_ip:               "{{ network.admin_ip }}"
+  #     grid_network_config:    "STATIC"    # "STATIC", "DHCP"
+  #     grid_network_ip:        "{{ sg.sgadmin2.grid_network_ip }}"
+  #     grid_network_mask:      "{{ network.grid_netmask }}"
+  #     grid_network_gateway:   "{{ network.grid_gateway }}"

@@ -1,0 +1,31 @@
+---
+# - name: 'Set Datacenter: {{ vcenter.datacenter }}'
+#   set_fact:
+#     datacenter: "{{ vcenter.datacenter }}"
+
+
+- name: Poweroff "{{ vm_name }}"
+  vmware_guest:
+    hostname:     "{{ vcenter.address }}"
+    username:     "{{ vcenter.username }}"
+    password:     "{{ vcenter.password }}"
+    validate_certs: no
+    cluster:      "{{ vcenter.cluster }}"
+    name:         "{{ vm_name }}"
+    state:        poweredoff
+  delegate_to:  localhost
+  register:     facts
+  # until: result is succeeded
+
+- name: Remove "{{ vm_name }}"
+  vmware_guest:
+    hostname:     "{{ vcenter.address }}"
+    username:     "{{ vcenter.username }}"
+    password:     "{{ vcenter.password }}"
+    validate_certs: no
+    cluster:      "{{ vcenter.cluster }}"
+    name:         "{{ vm_name }}"
+    state:        "{{ state }}"
+  delegate_to:  localhost
+  register:     facts
+  # until: result is succeeded
