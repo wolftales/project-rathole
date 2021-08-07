@@ -38,7 +38,7 @@
       
     register: grid_ntp_results
 
-  - name: Print GRID nodes
+  - name: Print GRID Response
     debug:
       msg:
       - "{{ grid_ntp_results }}"
