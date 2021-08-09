@@ -30,25 +30,30 @@
   - name: Get Info from Grid
     netapp.storagegrid.na_sg_grid_info:
       gather_subset:
-      - grid_health_topology_info
-      - grid_config_product_version_info
+      - all
+      # - grid_health_topology_info
+      # - grid_config_product_version_info
       <<: *input_grid
     register: grid_info_results
 
-  - name: Print GRID details
-    debug:
-      msg:
-      - "Name:               {{ grid_info_results.sg_info['grid/health/topology'].data.name }}"
-      - "Version:            {{ grid_info_results.sg_info['grid/config/product-version'].data.productVersion }}"
+  # - name: Print GRID details
+  #   debug:
+  #     msg:
+  #     - "Name:               {{ grid_info_results.sg_info['grid/health/topology'].data.name }}"
+  #     - "Version:            {{ grid_info_results.sg_info['grid/config/product-version'].data.productVersion }}"
 
-  - name: Print GRID nodes
+  # - name: Print GRID nodes
+  #   debug:
+  #     msg:
+  #     - "Data Center:        {{ item.0.name }}"
+  #     - "Node Name:          {{ item.1.name }}"
+  #     - "Node Type:          {{ item.1.type }}"
+  #   with_subelements:
+  #   - "{{ grid_info_results.sg_info['grid/health/topology'].data.children }}"
+  #   - children
+  #   loop_control:
+  #     label: "{{ item.0.name }} - {{ item.1.name }}"
+  
+  - name: Print GRID details - All
     debug:
-      msg:
-      - "Data Center:        {{ item.0.name }}"
-      - "Node Name:          {{ item.1.name }}"
-      - "Node Type:          {{ item.1.type }}"
-    with_subelements:
-    - "{{ grid_info_results.sg_info['grid/health/topology'].data.children }}"
-    - children
-    loop_control:
-      label: "{{ item.0.name }} - {{ item.1.name }}"
+      var: grid_info_results
