@@ -1,0 +1,32 @@
+---
+- name: "Remove virtual machine {{ vm_name }}"
+  hosts: localhost
+  gather_facts: no
+  connection: local
+  collections:
+  - community.vmware
+
+  vars_files:
+  - ../vars/vars_vm_deploy_sg_exampleLab.yml
+  # - ../vars/vars_vcenter_password.yml
+  vars:
+    sgvms:
+    - TEST-SGWS-Gateway
+    - TEST-SGWS-Admin2
+    - TEST-SGWS-Admin
+    - TEST-SGWS-Storage1
+    - TEST-SGWS-Storage2
+    - TEST-SGWS-Storage3
+    - TEST-SGWS-Storage4
+  
+  tasks:
+
+  # Shutdown and Remove Admin Node
+  - name: Shutdown and Remove SG VMs
+    include_tasks: ../tasks/remove_vm_guests.yml
+    vars:
+      vm_name:    "{{ item }}"
+      state:      absent
+    loop:         "{{ sgvms }}"
+    register:     facts
+  

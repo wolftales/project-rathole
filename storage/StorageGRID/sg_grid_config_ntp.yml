@@ -1,0 +1,44 @@
+---
+- name: 'StorageGRID: Configure NTP'
+  hosts: localhost
+  gather_facts: no
+  collections:
+  - netapp.storagegrid
+  vars_files:
+  - vars_sg.yml
+  vars:
+    grid_auth: &grid_auth
+      api_url:                 "{{ grid_admin_base_url }}"
+      auth_token:              "{{ auth_response.json.data }}"
+      validate_certs:          false
+
+  tasks:
+
+  - name: Get GRID authorization token
+    uri:
+      url:                     "{{ grid_admin_base_url }}/api/v3/authorize"
+      method:                  POST
+      validate_certs:          false
+      body_format:             json
+      body: {
+        "username":            "{{ grid_admin_username }}",
+        "password":            "{{ grid_admin_password }}",
+        "cookie":              false,
+        "csrfToken":           false
+      }
+    register: auth_response
+
+  - name: update NTP servers on StorageGRID
+    netapp.storagegrid.na_sg_grid_ntp:
+      <<: *grid_auth
+
+      state: present
+      passphrase: "{{ grid_passphrase }}"
+      ntp_servers: "{{ grid_ntp_srvs }}"
+      
+    register: grid_ntp_results
+
+  - name: Print GRID Response
+    debug:
+      msg:
+      - "{{ grid_ntp_results }}"

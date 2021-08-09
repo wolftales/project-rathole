@@ -1,0 +1,8 @@
+grid_admin_base_url:  https://192.168.7.215
+grid_username:        myadminaccount
+grid_password:        netapp1234
+tenant_username:      root
+tenant_password:      ChangeMe!
+users:
+  - bill
+  - ted

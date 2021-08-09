@@ -1,5 +1,8 @@
-
+*.pem
+*.key
+*.ova
+*.ovf
 .DS_Store
 files/StorageGRID-Webscale-11.5.0/
-files/ActiveIQUnifiedManager-9.9.ova
-files/*.ova
+secure/
+password.yml

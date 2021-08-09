@@ -16,7 +16,7 @@
     - name: "netapp_password"
       prompt: "Enter the NetApp Admin password"
   vars_files:
-  - vars_aqos.yml
+  - ../../vars/vars_ontap_aqos.yml
 
   tasks:
 
