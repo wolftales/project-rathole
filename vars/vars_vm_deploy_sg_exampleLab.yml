@@ -23,108 +23,47 @@ network:
   grid_netmask:         "255.255.255.0"
   grid_gateway:         "192.168.7.1"
 
-###
-# StorageGRID VM Resource settings - Not in use
-vm-resources:   # all are normally 8 x 24 GB
-  sgadmin:
-    vmem:     12288  # 12 GB
-    vcpu:     1
-  sggw:
-    vmem:     24567  # 24 GB
-    vcpu:     4
-  sgsnode:
-    vmem:     8192  # 8 GB
-    vcpu:     1
-
 sg:
+  grid_name: "sgws"
 
 ###
 # StorageGRID Admin Nodes
-  sgadmin:  # Primary
-    ovf_version:          "11.5.0"
-    name:                 "TEST-SGWS-Admin"
-    vm_network:           "VM Network"
-    vm_memory_mb:         12288
-    vm_num_cpus:          1
-    ovf_hostname:         "sgws-admin"
-    node_type:            "VM_Admin_Node"
-    # admin_role:          "Primary"  # Defaults to "Primary-Admin"
-    grid_network_config:  "STATIC" # "STATIC", "DHCP"
-    grid_network_ip:      "{{ network.admin_ip }}"
+  admin:  # Primary
+    grid_network_ip:      "{{ network.admin_ip }}"  
+    vm_memory_mb:         12288    
+    vm_num_cpus:          1    
 
-  sgadmin2:  # Non-Primary
-    ovf_version:          "11.5.0"
-    vm_name:              "TEST-SGWS-Admin2"
-    vm_network:           "VM Network"
+  admin2:  # Non-Primary
+    grid_network_ip:      "192.168.7.216"
     vm_memory_mb:         12288
     vm_num_cpus:          4
-    ovf_hostname:         "sgws-admin2"
-    node_type:            "VM_Admin_Node"
-    admin_role:           "Non-Primary"
-    admin_ip:             "{{ network.admin_ip }}"
-    grid_network_config:  "STATIC" # "STATIC", "DHCP"
-    grid_network_ip:      "192.168.7.216"
 
 ###
 # StorageGRID Gateway Node
-  sggw:
-    ovf_version:          "11.5.0"
-    vm_name:              "TEST-SGWS-Gateway"
-    vm_network:           "VM Network"
+  gateway:
+    grid_network_ip:      "192.168.7.210"    
     vm_memory_mb:         12288
-    vm_num_cpus:          4
-    ovf_hostname:         "sgws-gateway"
-    node_type:            "VM_API_Gateway"
-    admin_ip:             "{{ network.admin_ip }}"
-    grid_network_config:  "STATIC" # "STATIC", "DHCP"
-    grid_network_ip:      "192.168.7.210"
+    vm_num_cpus:          4    
 
 ###
 # StorageGRID Storage Nodes
-  sgsnode1:
-    ovf_version:          "11.5.0"
-    vm_name:              "TEST-SGWS-Storage1"
-    vm_network:           "VM Network"
-    vm_memory_mb:         8192
-    vm_num_cpus:          1
-    ovf_hostname:         "sgws-storage1"
-    node_type:            "VM_Storage_Node"
-    admin_ip:             "{{ network.admin_ip }}"
-    grid_network_config:  "STATIC" # "STATIC", "DHCP"
+  storage1:
     grid_network_ip:      "192.168.7.211"
-
-  sgsnode2:
-    ovf_version:          "11.5.0"
-    vm_name:              "TEST-SGWS-Storage2"
-    vm_network:           "VM Network"
     vm_memory_mb:         8192
-    vm_num_cpus:          1
-    ovf_hostname:         "sgws-storage2"
-    node_type:            "VM_Storage_Node"
-    admin_ip:             "{{ network.admin_ip }}"
-    grid_network_config:  "STATIC" # "STATIC", "DHCP"
-    grid_network_ip:      "192.168.7.212"
+    vm_num_cpus:          1        
 
-  sgsnode3:
-    ovf_version:          "11.5.0"
-    vm_name:              "TEST-SGWS-Storage3"
-    vm_network:           "VM Network"
+  storage2:
+    grid_network_ip:      "192.168.7.212"    
     vm_memory_mb:         8192
-    vm_num_cpus:          1
-    ovf_hostname:         "sgws-storage3"
-    node_type:            "VM_Storage_Node"
-    admin_ip:             "{{ network.admin_ip }}"
-    grid_network_config:  "STATIC" # "STATIC", "DHCP"
-    grid_network_ip:      "192.168.7.213"
+    vm_num_cpus:          1    
 
-  sgsnode4:
-    ovf_version:          "11.5.0"
-    vm_name:              "TEST-SGWS-Storage4"
-    vm_network:           "VM Network"
+  storage3:
+    grid_network_ip:      "192.168.7.213"    
     vm_memory_mb:         8192
-    vm_num_cpus:          1
-    ovf_hostname:         "sgws-storage4"
-    node_type:            "VM_Storage_Node"
-    admin_ip:             "{{ network.admin_ip }}"
-    grid_network_config:  "STATIC" # "STATIC", "DHCP"
-    grid_network_ip:      "192.168.7.214"
+    vm_num_cpus:          1    
+
+  storage4:
+    grid_network_ip:      "192.168.7.214"    
+    vm_memory_mb:         8192
+    vm_num_cpus:          1    
+

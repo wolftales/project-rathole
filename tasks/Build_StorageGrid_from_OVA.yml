@@ -7,7 +7,7 @@
     # ovf_file:         "{{ ovf_file | default('files/StorageGRID-Webscale-{{ovf_version}}/vsphere/vsphere-primary-admin.ovf') }}"
     # ovf_url:          "{{ ovf_url | default('https://mysupport.netapp.com/you/cant/get/there/from/here.ova') }}"
     vm_name:           "{{ vm_name | default('sgws-admin') }}"
-    vm_network:        "{{ vm_network | default('VM Network') }}"
+    grid_network_name: "{{ grid_network_name | default('VM Network') }}"
     vm_num_cpus:       "{{ vm_num_cpus | default(4) }}"
     vm_memory_mb:      "{{ vm_memory_mb | default(12288) }}"
     node_type:         "{{ node_type | default('VM_Storage_Node') }}"  # "VM_Storage_Node", Default="VM_Admin_Node", "VM_API_Gateway", "VM_Archive_Node"
@@ -67,8 +67,8 @@
     disk_provisioning:  thin
     power_on:           no
     wait_for_ip_address: false
-    networks:           "{u'Grid Network':u'{{ vm_network }}',u'Admin Network':u'{{ vm_network }}',
-                          u'Client Network':u'{{ vm_network }}' }"
+    networks:           "{u'Grid Network':u'{{ grid_network_name }}',u'Admin Network':u'{{ grid_network_name }}',
+                          u'Client Network':u'{{ grid_network_name }}' }"
     inject_ovf_env:     true
     properties:
 
