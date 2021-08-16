@@ -5,118 +5,91 @@
 
   vars_files:
   - ../vars/vars_vm_deploy_sg_exampleLab.yml
+  vars:
+    ovf_version:            "11.5.0"
+    admin_ip:               "{{ sg.admin_ip }}"
+    grid_network_name:      "{{ sg.grid_network_name }}"
+    grid_network_config:    "{{ sg.grid_network_config }}"   # "STATIC", "DHCP"
+    grid_network_mask:      "{{ sg.grid_netmask }}"
+    grid_network_gateway:   "{{ sg.grid_gateway }}"
 
   tasks:
 
   # Deploy Admin Node
   - include_tasks: ../tasks/Build_StorageGrid_from_OVA.yml
     vars:
-      ovf_version:            "11.5.0"
-      vm_name:                "TEST-SGWS-Admin"
-      vm_network:             "VM Network"
-      vm_memory_mb:           12288
-      vm_num_cpus:            1
-      ovf_hostname:           "sgws-admin"
-      node_type:              "VM_Admin_Node"
-      grid_network_config:    "STATIC"    # "STATIC", "DHCP"
-      # grid_network_config:     "{{ network.network_config }}"
-      grid_network_ip:        "{{ sg.sgadmin.grid_network_ip }}"
-      grid_network_mask:      "{{ network.grid_netmask }}"
-      grid_network_gateway:   "{{ network.grid_gateway }}"
+      node_type:              "VM_Admin_Node"      
+      vm_name:                "{{sg.grid_name))-admin"
+      ovf_hostname:           "{{sg.grid_name}}-admin"      
+      vm_memory_mb:           "{{sg.admin.vm_memory_mb}}"
+      vm_num_cpus:            "{{sg.admin.vm_num_cpus}}"
+      grid_network_ip:        "{{sg.admin.grid_network_ip }}"
+    when: sg.admin.grid_network_ip is defined
 
   # Deploy Storage Node 1
   - include_tasks: ../tasks/Build_StorageGrid_from_OVA.yml
     vars:
-      ovf_version:            "11.5.0"
-      vm_name:                "TEST-SGWS-Storage1"
-      vm_network:             "VM Network"
-      vm_memory_mb:           8192
-      vm_num_cpus:            1
-      ovf_hostname:           "sgws-storage1"
-      node_type:              "VM_Storage_Node"
-      admin_ip:               "{{ network.admin_ip }}"
-      grid_network_config:    "STATIC"    # "STATIC", "DHCP"
-      grid_network_ip:        "{{ sg.sgsnode1.grid_network_ip }}"
-      grid_network_mask:      "{{ network.grid_netmask }}"
-      grid_network_gateway:   "{{ network.grid_gateway }}"
+      node_type:              "VM_Storage_Node"      
+      vm_name:                "{{sg.grid_name))-storage1"
+      ovf_hostname:           "{{sg.grid_name}}-storage1"      
+      vm_memory_mb:           "{{sg.storage1.vm_memory_mb}}"
+      vm_num_cpus:            "{{sg.storage1.vm_num_cpus}}"
+      grid_network_ip:        "{{sg.storage1.grid_network_ip }}"
+    when: sg.storage1.grid_network_ip is defined    
 
   # Deploy Storage Node 2
   - include_tasks: ../tasks/Build_StorageGrid_from_OVA.yml
     vars:
-      ovf_version:            "11.5.0"
-      vm_name:                "TEST-SGWS-Storage2"
-      vm_network:             "VM Network"
-      vm_memory_mb:           8192
-      vm_num_cpus:            1
-      ovf_hostname:           "sgws-storage2"
-      node_type:              "VM_Storage_Node"
-      admin_ip:               "{{ network.admin_ip }}"
-      grid_network_config:    "STATIC"    # "STATIC", "DHCP"
-      grid_network_ip:        "{{ sg.sgsnode2.grid_network_ip }}"
-      grid_network_mask:      "{{ network.grid_netmask }}"
-      grid_network_gateway:   "{{ network.grid_gateway }}"
+      node_type:              "VM_Storage_Node"      
+      vm_name:                "{{sg.grid_name))-storage2"
+      ovf_hostname:           "{{sg.grid_name}}-storage2"      
+      vm_memory_mb:           "{{sg.storage2.vm_memory_mb}}"
+      vm_num_cpus:            "{{sg.storage2.vm_num_cpus}}"
+      grid_network_ip:        "{{sg.storage2.grid_network_ip }}"
+    when: sg.storage2.grid_network_ip is defined    
 
   # Deploy Storage Node 3
   - include_tasks: ../tasks/Build_StorageGrid_from_OVA.yml
     vars:
-      ovf_version:            "11.5.0"
-      vm_name:                "TEST-SGWS-Storage3"
-      vm_network:             "VM Network"
-      vm_memory_mb:            8192
-      vm_num_cpus:             1
-      ovf_hostname:           "sgws-storage3"
-      node_type:              "VM_Storage_Node"
-      admin_ip:               "{{ network.admin_ip }}"
-      grid_network_config:    "STATIC"   # "STATIC", "DHCP"
-      grid_network_ip:        "{{ sg.sgsnode3.grid_network_ip }}"
-      grid_network_mask:      "{{ network.grid_netmask }}"
-      grid_network_gateway:   "{{ network.grid_gateway }}"
+      node_type:              "VM_Storage_Node"      
+      vm_name:                "{{sg.grid_name))-storage3"
+      ovf_hostname:           "{{sg.grid_name}}-storage3"      
+      vm_memory_mb:           "{{sg.storage3.vm_memory_mb}}"
+      vm_num_cpus:            "{{sg.storage3.vm_num_cpus}}"
+      grid_network_ip:        "{{sg.storage3.grid_network_ip }}"
+    when: sg.storage3.grid_network_ip is defined    
 
   # Deploy Storage Node 4
   - include_tasks: ../tasks/Build_StorageGrid_from_OVA.yml
     vars:
-      ovf_version:            "11.5.0"
-      vm_name:                "TEST-SGWS-Storage4"
-      vm_network:             "VM Network"
-      vm_memory_mb:           8192
-      vm_num_cpus:             1
-      ovf_hostname:           "sgws-storage4"
-      node_type:              "VM_Storage_Node"
-      admin_ip:               "{{ network.admin_ip }}"
-      grid_network_config:    "STATIC"   # "STATIC", "DHCP"
-      grid_network_ip:        "{{ sg.sgsnode4.grid_network_ip }}"
-      grid_network_mask:      "{{ network.grid_netmask }}"
-      grid_network_gateway:   "{{ network.grid_gateway }}"
+      node_type:              "VM_Storage_Node"      
+      vm_name:                "{{sg.grid_name))-storage4"
+      ovf_hostname:           "{{sg.grid_name}}-storage4"      
+      vm_memory_mb:           "{{sg.storage4.vm_memory_mb}}"
+      vm_num_cpus:            "{{sg.storage4.vm_num_cpus}}"
+      grid_network_ip:        "{{sg.storage4.grid_network_ip }}"
+    when: sg.storage4.grid_network_ip is defined    
 
   # Deploy Gateway Node
   - include_tasks: ../tasks/Build_StorageGrid_from_OVA.yml
     vars:
-      ovf_version:            "11.5.0"
-      vm_name:                "TEST-SGWS-Gateway"
-      vm_network:             "VM Network"
-      vm_memory_mb:           12288  # 24567
-      vm_num_cpus:            2  # 4
-      ovf_hostname:           "sgws-gateway"
-      node_type:              "VM_API_Gateway"
-      admin_ip:               "{{ network.admin_ip }}"
-      grid_network_config:    "STATIC"   # "STATIC", "DHCP"
-      grid_network_ip:        "{{ sg.sggw.grid_network_ip }}"
-      grid_network_mask:      "{{ network.grid_netmask }}"
-      grid_network_gateway:   "{{ network.grid_gateway }}"
+      node_type:              "VM_API_Gateway"      
+      vm_name:                "{{sg.grid_name))-gateway"
+      ovf_hostname:           "{{sg.grid_name}}-gateway"      
+      vm_memory_mb:           "{{sg.gateway.vm_memory_mb}}"
+      vm_num_cpus:            "{{sg.gateway.vm_num_cpus}}"
+      grid_network_ip:        "{{sg.gateway.grid_network_ip }}"
+    when: sg.gateway.grid_network_ip is defined    
 
   # Deploy Non-Primary Admin Node
-  # - include_tasks: ../tasks/Build_StorageGrid_from_OVA.yml
-  #   vars:
-  #     ovf_version:            "11.5.0"
-  #     vm_name:                "TEST-SGWS-Admin2"
-  #     vm_network:             "VM Network"
-  #     vm_memory_mb:           12288
-  #     vm_num_cpus:            1
-  #     ovf_hostname:           "sgws-admin2"
-  #     node_type:              "VM_Admin_Node"
-  #     admin_role:             "Non-Primary"
-  #     admin_ip:               "{{ network.admin_ip }}"
-  #     grid_network_config:    "STATIC"    # "STATIC", "DHCP"
-  #     grid_network_ip:        "{{ sg.sgadmin2.grid_network_ip }}"
-  #     grid_network_mask:      "{{ network.grid_netmask }}"
-  #     grid_network_gateway:   "{{ network.grid_gateway }}"
+  - include_tasks: ../tasks/Build_StorageGrid_from_OVA.yml
+    vars:
+      node_type:              "VM_Admin_Node"
+      admin_role:             "Non-Primary"      
+      vm_name:                "{{sg.grid_name))-admin2"
+      ovf_hostname:           "{{sg.grid_name}}-admin2"      
+      vm_memory_mb:           "{{sg.admin2.vm_memory_mb}}"
+      vm_num_cpus:            "{{sg.admin2.vm_num_cpus}}"
+      grid_network_ip:        "{{sg.admin2.grid_network_ip }}"
+    when: sg.admin2.grid_network_ip is defined
+
