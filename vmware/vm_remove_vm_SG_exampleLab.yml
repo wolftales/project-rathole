@@ -24,7 +24,7 @@
     - sgws-storage1
     - sgws-storage2
     - sgws-storage3
-    - sgws-storage4
+    # - sgws-storage4
 
   tasks:
 
