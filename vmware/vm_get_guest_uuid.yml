@@ -1,0 +1,26 @@
+---
+- name: Getting VMWARE UUID
+  hosts: localhost
+  gather_facts: false
+  connection: local
+  vars_files:
+  - ../vars/vars_vm_deploy_sg_exampleLab.yml
+  tasks:
+  - name: Get UUID from given VM Name
+    block:
+      - name: Get virtual machine info
+        vmware_vm_info:
+          hostname: '{{ vcenter.address }}'
+          username: '{{ vcenter.username }}'
+          password: '{{ vcenter.password }}'
+          validate_certs: false
+          folder: "/Datacenter/vm/"
+        delegate_to: localhost
+        register: vm_info
+
+      - debug:
+          msg: "{{ item.uuid }}"
+        with_items:
+          - "{{ vm_info.virtual_machines | json_query(query) }}"
+        vars:
+          query: "[?guest_name=='TEST-SGWS-Admin']"

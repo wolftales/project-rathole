@@ -11,17 +11,24 @@
   # - ../vars/vars_vcenter_password.yml
   vars:
     sgvms:
-    - TEST-SGWS-Gateway
-    - TEST-SGWS-Admin2
-    - TEST-SGWS-Admin
-    - TEST-SGWS-Storage1
-    - TEST-SGWS-Storage2
-    - TEST-SGWS-Storage3
-    - TEST-SGWS-Storage4
-  
+    # - TEST-SGWS-Gateway
+    # - TEST-SGWS-Admin2
+    # - TEST-SGWS-Admin
+    # - TEST-SGWS-Storage1
+    # - TEST-SGWS-Storage2
+    # - TEST-SGWS-Storage3
+    # - TEST-SGWS-Storage4
+    - sgws-admin
+    - sgws-admin2
+    - sgws-gateway
+    - sgws-storage1
+    - sgws-storage2
+    - sgws-storage3
+    # - sgws-storage4
+
   tasks:
 
-  # Shutdown and Remove Admin Node
+  # Shutdown and Remove StorageGRID Nodes
   - name: Shutdown and Remove SG VMs
     include_tasks: ../tasks/remove_vm_guests.yml
     vars:
@@ -29,4 +36,4 @@
       state:      absent
     loop:         "{{ sgvms }}"
     register:     facts
-  
+

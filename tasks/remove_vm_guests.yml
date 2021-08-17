@@ -1,8 +1,51 @@
 ---
-# - name: 'Set Datacenter: {{ vcenter.datacenter }}'
-#   set_fact:
-#     datacenter: "{{ vcenter.datacenter }}"
+- name: Get Virtual Machine info
+  vmware_guest_info:
+    hostname:   "{{ vcenter.address }}"
+    username:   "{{ vcenter.username }}"
+    password:   "{{ vcenter.password }}"
+    validate_certs: no
+    datacenter: "{{ vcenter.datacenter }}"
+    name:       "{{ vm_name }}"
+    schema:     "vsphere"
+    properties:
+  delegate_to: localhost
+  register: vminfo
+  # when: vm_name
 
+# - debug:
+#     var: vminfo.instance.config.uuid
+
+# - debug:
+#     var: vm_name
+
+- name: "Get VM: {{ vm_name }} UUID"
+  set_fact:
+    vm_uuid: "{{ vminfo.instance.config.uuid }}"
+
+- name: Wait for the virtual machine to shutdown
+  vmware_guest_powerstate:
+    hostname:     "{{ vcenter.address }}"
+    username:     "{{ vcenter.username }}"
+    password:     "{{ vcenter.password }}"
+    validate_certs: false
+    name:         "{{ vm_name }}"
+    state: shutdown-guest
+    # state_change_timeout: 900
+  register: wait
+  ignore_errors: yes
+
+# - name: ForcePoweroff
+#   vmware_guest_powerstate:
+#     hostname:     "{{ vcenter.address }}"
+#     username:     "{{ vcenter.username }}"
+#     password:     "{{ vcenter.password }}"
+#     validate_certs: false
+#     name:         "{{ vm_name }}"
+#     state: powered-off
+#   register: poweroff
+#   # when: wait.msg is search('Timeout')
+#   until: poweroff is succeeded
 
 - name: Poweroff "{{ vm_name }}"
   vmware_guest:
@@ -12,6 +55,11 @@
     validate_certs: no
     cluster:      "{{ vcenter.cluster }}"
     name:         "{{ vm_name }}"
+    # folder:       "/{{ vcenter.datacenter }}/vm"
+    # folder:       "/Datacenter/vm"
+    # datacenter:   "{{ vcenter.datacenter }}"
+    # datastore:    "{{ vcenter.datastore }}"
+    uuid:         "{{ vm_uuid }}"
     state:        poweredoff
   delegate_to:  localhost
   register:     facts

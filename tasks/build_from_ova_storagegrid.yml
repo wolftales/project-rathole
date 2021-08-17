@@ -3,7 +3,7 @@
 - name: Variables Processing
   set_fact:
     ovf_version:       "{{ ovf_version | default('11.5.0') }}"
-    ovf_location:      "{{ ovf_location | default('../files/StorageGRID-Webscale-{{ovf_version}}/vsphere') }}"
+    ovf_location:      "{{ ovf_location | default('../files/StorageGRID-Webscale-{{ ovf_version }}/vsphere') }}"
     # ovf_file:         "{{ ovf_file | default('files/StorageGRID-Webscale-{{ovf_version}}/vsphere/vsphere-primary-admin.ovf') }}"
     # ovf_url:          "{{ ovf_url | default('https://mysupport.netapp.com/you/cant/get/there/from/here.ova') }}"
     vm_name:           "{{ vm_name | default('sgws-admin') }}"
@@ -48,7 +48,6 @@
     - node_type == "VM_API_Gateway"
 - name: 'set_fact: Archive'
   set_fact:
-  
     ovf_file:         "{{ ovf_location }}/vsphere-archive.ovf"
   when:
     - node_type == "VM_Archive_Node"
@@ -98,7 +97,7 @@
       ADMIN_NETWORK_IP:       "0.0.0.0" #The IP address of this node on the admin network (0.0.0.0 if not used).
       ADMIN_NETWORK_MASK:     "255.255.255.255" #The netmask for this node's admin network subnet.
       ADMIN_NETWORK_GATEWAY:  "0.0.0.0" #The admin network gateway for this node (must be on the admin network subnet).
-      ADMIN_NETWORK_ESL:      "" # a comma-separated list of subnets that will communicate with this node through its admin network gateway. This list will be used to create static routes. Use CIDR notation. For example, 10.10.10.0/24,192.168.100.0/24,172.16.0.0/16
+      ADMIN_NETWORK_ESL:      "" # a comma-separated list of subnets that will communicate with this node through its admin network gateway.
       ADMIN_NETWORK_MTU:      "1400"
       ADMIN_IP:               "{{ admin_ip | default(omit) }}"
 

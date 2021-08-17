@@ -3,67 +3,67 @@
 ###
 
 vcenter:
-  address:    192.168.7.121  # Can be an IP
-  username:   administrator@vsphere.local
-  password:   Netapp1!
-  datacenter: Datacenter  # If there is no vcenter, use 'ha-datacenter'
-  cluster:    "Cluster1"  # "Resource Cluster"  # Default cluster for new VM provisioning. if there is no cluster set it to ""
-  datastore:  "datastore1"  # 
+  address:                192.168.7.121  # Can be an IP
+  username:               administrator@vsphere.local
+  password:               Netapp1!
+  datacenter:             Datacenter  # If there is no vcenter, use 'ha-datacenter'
+  cluster:                "Cluster1"  # "Resource Cluster"  # Default cluster for new VM provisioning. if there is no cluster set it to ""
+  datastore:              "datastore1"  #
 
 ###
 # StorageGRID Configuration
 ###
-network:
-  admin_ip:             192.168.7.215
-  # admin_netmask:
-  # admin_gateway:
-  client_netmask:       
-  client_gateway:
-  grid_network_config:  "STATIC"
-  grid_netmask:         "255.255.255.0"
-  grid_gateway:         "192.168.7.1"
 
 sg:
-  grid_name: "sgws"
+  grid_name:              "sgws"
+  admin_ip:               "192.168.7.215"
+#   admin_netmask:
+#   admin_gateway:
+#   client_netmask:
+#   client_gateway:
+  grid_network_name:      "VM Network"
+  grid_network_config:    "STATIC"  # "STATIC", "DHCP"
+  grid_netmask:           "255.255.255.0"
+  grid_gateway:           "192.168.7.1"
 
 ###
 # StorageGRID Admin Nodes
   admin:  # Primary
-    grid_network_ip:      "{{ network.admin_ip }}"  
-    vm_memory_mb:         12288    
-    vm_num_cpus:          1    
+    grid_network_ip:      "192.168.7.215"
+    vm_memory_mb:         12288
+    vm_num_cpus:          1
 
   admin2:  # Non-Primary
-    grid_network_ip:      "192.168.7.216"
+    grid_network_ip:     "192.168.7.216"
     vm_memory_mb:         12288
     vm_num_cpus:          4
 
 ###
 # StorageGRID Gateway Node
   gateway:
-    grid_network_ip:      "192.168.7.210"    
+    grid_network_ip:      "192.168.7.210"
     vm_memory_mb:         12288
-    vm_num_cpus:          4    
+    vm_num_cpus:          4
 
 ###
 # StorageGRID Storage Nodes
   storage1:
     grid_network_ip:      "192.168.7.211"
     vm_memory_mb:         8192
-    vm_num_cpus:          1        
+    vm_num_cpus:          1
 
   storage2:
-    grid_network_ip:      "192.168.7.212"    
+    grid_network_ip:      "192.168.7.212"
     vm_memory_mb:         8192
-    vm_num_cpus:          1    
+    vm_num_cpus:          1
 
   storage3:
-    grid_network_ip:      "192.168.7.213"    
+    grid_network_ip:      "192.168.7.213"
     vm_memory_mb:         8192
-    vm_num_cpus:          1    
+    vm_num_cpus:          1
 
   storage4:
-    grid_network_ip:      "192.168.7.214"    
+    grid_network_ip:     "192.168.7.214"
     vm_memory_mb:         8192
-    vm_num_cpus:          1    
+    vm_num_cpus:          1
 
