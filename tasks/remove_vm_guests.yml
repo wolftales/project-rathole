@@ -13,13 +13,13 @@
   register: vminfo
   # when: vm_name
 
-- debug:
-    var: vminfo.instance.config.uuid
+# - debug:
+#     var: vminfo.instance.config.uuid
 
-- debug:
-    var: vm_name
+# - debug:
+#     var: vm_name
 
-- name: "Get VM: {{}} UUID"
+- name: "Get VM: {{ vm_name }} UUID"
   set_fact:
     vm_uuid: "{{ vminfo.instance.config.uuid }}"
 
@@ -35,17 +35,17 @@
   register: wait
   ignore_errors: yes
 
-- name: ForcePoweroff
-  vmware_guest_powerstate:
-    hostname:     "{{ vcenter.address }}"
-    username:     "{{ vcenter.username }}"
-    password:     "{{ vcenter.password }}"
-    validate_certs: false
-    name:         "{{ vm_name }}"
-    state: powered-off
-  register: poweroff
-  # when: wait.msg is search('Timeout')
-  until: poweroff is succeeded
+# - name: ForcePoweroff
+#   vmware_guest_powerstate:
+#     hostname:     "{{ vcenter.address }}"
+#     username:     "{{ vcenter.username }}"
+#     password:     "{{ vcenter.password }}"
+#     validate_certs: false
+#     name:         "{{ vm_name }}"
+#     state: powered-off
+#   register: poweroff
+#   # when: wait.msg is search('Timeout')
+#   until: poweroff is succeeded
 
 - name: Poweroff "{{ vm_name }}"
   vmware_guest:
