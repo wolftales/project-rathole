@@ -34,14 +34,14 @@ sg:
     vm_num_cpus:          1
 
   admin2:  # Non-Primary
-    grid_network_ip:     "192.168.7.216"
+    # grid_network_ip:     "192.168.7.216"
     vm_memory_mb:         12288
     vm_num_cpus:          4
 
 ###
 # StorageGRID Gateway Node
   gateway:
-    grid_network_ip:      "192.168.7.210"
+    # grid_network_ip:      "192.168.7.210"
     vm_memory_mb:         12288
     vm_num_cpus:          4
 
@@ -63,7 +63,7 @@ sg:
     vm_num_cpus:          1
 
   storage4:
-    grid_network_ip:     "192.168.7.214"
+    # grid_network_ip:     "192.168.7.214"
     vm_memory_mb:         8192
     vm_num_cpus:          1
 

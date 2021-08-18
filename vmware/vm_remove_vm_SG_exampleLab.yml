@@ -19,8 +19,8 @@
     # - TEST-SGWS-Storage3
     # - TEST-SGWS-Storage4
     - sgws-admin
-    - sgws-admin2
-    - sgws-gateway
+    # - sgws-admin2
+    # - sgws-gateway
     - sgws-storage1
     - sgws-storage2
     - sgws-storage3

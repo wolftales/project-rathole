@@ -1,0 +1,8 @@
+sgvms:  # List of storageGRID VM names
+- TEST-SGWS-Gateway
+- TEST-SGWS-Admin2
+- TEST-SGWS-Admin
+- TEST-SGWS-Storage1
+- TEST-SGWS-Storage2
+- TEST-SGWS-Storage3
+- TEST-SGWS-Storage4
