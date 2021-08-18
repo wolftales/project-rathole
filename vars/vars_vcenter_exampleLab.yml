@@ -1,0 +1,12 @@
+###
+# Credentials for deploying a VM for StorageGRID nodes
+###
+
+vcenter:
+  address:                192.168.7.121  # Can be an IP
+  username:               administrator@vsphere.local
+  password:               Netapp1!
+  datacenter:             Datacenter  # If there is no vcenter, use 'ha-datacenter'
+  cluster:                "Cluster1"  # "Resource Cluster"  # Default cluster for new VM provisioning. if there is no cluster set it to ""
+  datastore:              "datastore1"  #
+
