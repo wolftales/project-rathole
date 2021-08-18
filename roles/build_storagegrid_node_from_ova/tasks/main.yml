@@ -3,6 +3,7 @@
 # - name: Variables Processing
 #   set_fact:
 #     ovf_version:       "{{ ovf_version | default('11.5.0') }}"
+
 #     ovf_location:      "{{ ovf_location | default('{{ playbook_dir }}/files/StorageGRID-Webscale-{{ovf_version}}/vsphere') }}"
 #     vm_name:           "{{ vm_name | default('sgws-admin') }}"
 #     grid_network_name: "{{ grid_network_name | default('VM Network') }}"
@@ -114,7 +115,7 @@
       #ADMIN_ROLE:          "{{ admin_role }}"
 
       #Grid Network (eth0)
-      #GRID_NETWORK_DEV:    "eth0"
+      #GRID_NETWORK_DEV:    "
       GRID_NETWORK_CONFIG:  "{{ grid_network_config  | default('DHCP') }}" # "STATIC", "DHCP"
       GRID_NETWORK_IP:      "{{ grid_network_ip      | default('0.0.0.0') }}"
       GRID_NETWORK_MASK:    "{{ grid_network_mask    | default('255.255.255.255') }}"
@@ -142,6 +143,7 @@
       #Advanced
       #PORT_REMAP: ""
       #PORT_REMAP_INBOUND: ""
+
 
   delegate_to:  localhost
   retries:      2
@@ -227,3 +229,4 @@
     state:          poweredon
   delegate_to:      localhost
   register:         powerstate
+
