@@ -1,16 +1,4 @@
 ###
-# Credentials for deploying a VM for StorageGRID nodes
-###
-
-vcenter:
-  address:                192.168.7.121  # Can be an IP
-  username:               administrator@vsphere.local
-  password:               Netapp1!
-  datacenter:             Datacenter  # If there is no vcenter, use 'ha-datacenter'
-  cluster:                "Cluster1"  # "Resource Cluster"  # Default cluster for new VM provisioning. if there is no cluster set it to ""
-  datastore:              "datastore1"  #
-
-###
 # StorageGRID Configuration
 ###
 
@@ -26,6 +14,19 @@ sg:
   grid_netmask:           "255.255.255.0"
   grid_gateway:           "192.168.7.1"
 
+  admin_network_config:  'DISABLED'
+  admin_network_ip:
+  admin_network_mask:
+  admin_network_gateway:
+  admin_network_esl:
+  admin_network_mtu:
+
+  client_network_config:  'DISABLED'
+  client_network_ip:
+  client_network_mask:
+  client_network_gateway:
+  client_network_mtu:
+
 ###
 # StorageGRID Admin Nodes
   admin:  # Primary
@@ -34,14 +35,14 @@ sg:
     vm_num_cpus:          1
 
   admin2:  # Non-Primary
-    # grid_network_ip:     "192.168.7.216"
+    grid_network_ip:     "192.168.7.216"
     vm_memory_mb:         12288
     vm_num_cpus:          4
 
 ###
 # StorageGRID Gateway Node
   gateway:
-    # grid_network_ip:      "192.168.7.210"
+    grid_network_ip:      "192.168.7.210"
     vm_memory_mb:         12288
     vm_num_cpus:          4
 
@@ -63,7 +64,7 @@ sg:
     vm_num_cpus:          1
 
   storage4:
-    # grid_network_ip:     "192.168.7.214"
+    grid_network_ip:     "192.168.7.214"
     vm_memory_mb:         8192
     vm_num_cpus:          1
 

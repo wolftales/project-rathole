@@ -7,8 +7,7 @@
   - community.vmware
 
   vars_files:
-  - ../vars/vars_vm_deploy_sg_exampleLab.yml
-  # - ../vars/vars_vcenter_password.yml
+  - vars/vars_vcenter_exampleLab.yml
   vars:
     sgvms:
     # - TEST-SGWS-Gateway
@@ -29,11 +28,20 @@
   tasks:
 
   # Shutdown and Remove StorageGRID Nodes
-  - name: Shutdown and Remove SG VMs
-    include_tasks: ../tasks/remove_vm_guests.yml
+  # - name: Shutdown and Remove SG VMs
+  #   include_tasks: ../tasks/remove_vm_guests.yml
+  #   vars:
+  #     vm_name:    "{{ item }}"
+  #     state:      absent
+  #   loop:         "{{ sgvms }}"
+  #   register:     facts
+
+# Deploy Admin Node
+  - include_role:
+      name: remove_storagegrid_vms
     vars:
+      vars:
       vm_name:    "{{ item }}"
       state:      absent
     loop:         "{{ sgvms }}"
     register:     facts
-
