@@ -7,7 +7,7 @@
   - vars/vars_vcenter_exampleLab.yml
   - vars/vars_storagegrid_exampleLab.yml
   vars:
-    #ovf_version:         "11.5.0"
+    #ovf_version:           "11.5.0"
     # grid_name:            "sgws"
     # grid_network_name:    "VM Network"
     # grid_network_config:  "STATIC"

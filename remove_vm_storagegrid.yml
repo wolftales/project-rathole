@@ -38,7 +38,7 @@
 
 # Deploy Admin Node
   - include_role:
-      name: remove_storagegrid_vms
+      name: remove_storagegrid_nodes
     vars:
       vars:
       vm_name:    "{{ item }}"
