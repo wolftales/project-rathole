@@ -25,8 +25,9 @@
       vm_name:          "{{ sg.grid_name }}-admin"
       ovf_hostname:     "{{ sg.grid_name }}-admin"
       grid_network_ip:  "{{ sg.admin_ip }}"
-      vm_memory_mb:     12288
-      vm_num_cpus:      2
+      vm_memory_mb:     "{{ sg.admin.vm_memory_mb }}"
+      vm_num_cpus:      "{{ sg.admin.vm_num_cpus }}"
+    when: sg.admin.deploy is true
 
   # Deploy Storage Node 1
   - include_role:
@@ -38,6 +39,7 @@
       grid_network_ip:  "{{ sg.storage1.grid_network_ip }}"
       vm_memory_mb:     "{{ sg.storage1.vm_memory_mb }}"
       vm_num_cpus:      "{{ sg.storage1.vm_num_cpus }}"
+    when: sg.storage1.deploy is true
 
   # Deploy Storage Node 2
   - include_role:
@@ -49,6 +51,7 @@
       grid_network_ip:  "{{ sg.storage2.grid_network_ip }}"
       vm_memory_mb:     "{{ sg.storage2.vm_memory_mb }}"
       vm_num_cpus:      "{{ sg.storage2.vm_num_cpus }}"
+    when: sg.storage2.deploy is true
 
   # Deploy Storage Node 3
   - include_role:
@@ -60,6 +63,7 @@
       grid_network_ip:  "{{ sg.storage3.grid_network_ip }}"
       vm_memory_mb:     "{{ sg.storage3.vm_memory_mb }}"
       vm_num_cpus:      "{{ sg.storage3.vm_num_cpus }}"
+    when: sg.storage3.deploy is true
 
   # Deploy Storage Node 4
   - include_role:
@@ -71,6 +75,7 @@
       grid_network_ip:  "{{ sg.storage4.grid_network_ip }}"
       vm_memory_mb:     "{{ sg.storage4.vm_memory_mb }}"
       vm_num_cpus:      "{{ sg.storage4.vm_num_cpus }}"
+    when: sg.storage4.deploy is true
 
   # Deploy Gateway Node
   - include_role:
@@ -82,6 +87,7 @@
       grid_network_ip:  "{{ sg.gateway.grid_network_ip }}"
       vm_memory_mb:     "{{ sg.gateway.vm_memory_mb }}"
       vm_num_cpus:      "{{ sg.gateway.vm_num_cpus }}"
+    when: sg.gateway.deploy is true
 
   # Deploy Non-Primary Admin Node
   - include_role:
@@ -94,3 +100,4 @@
       grid_network_ip:  "{{ sg.admin2.grid_network_ip }}"
       vm_memory_mb:     "{{ sg.admin2.vm_memory_mb }}"
       vm_num_cpus:      "{{ sg.admin2.vm_num_cpus }}"
+    when: sg.admin2.deploy is true
