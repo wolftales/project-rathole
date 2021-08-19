@@ -128,7 +128,7 @@
       ADMIN_NETWORK_IP:      "{{ admin_network_ip      | default('0.0.0.0') }}" #The IP address of this node on the admin network (0.0.0.0 if not used).
       ADMIN_NETWORK_MASK:    "{{ admin_network_mask    | default('255.255.255.255') }}" #The netmask for this node's admin network subnet.
       ADMIN_NETWORK_GATEWAY: "{{ admin_network_gateway | default('0.0.0.0') }}" #The admin network gateway for this node (must be on the admin network subnet).
-      ADMIN_NETWORK_ESL:     "{{ admin_network_esl     | default('') }}" # a comma-separated list of subnets that will communicate with this node through its admin network gateway. This list will be used to create static routes. Use CIDR notation. For example, 10.10.10.0/24,192.168.100.0/24,172.16.0.0/16
+      ADMIN_NETWORK_ESL:     "{{ admin_network_esl     | default('') }}" # Use CIDR notation. For example, 10.10.10.0/24,192.168.100.0/24,172.16.0.0/16
       ADMIN_NETWORK_MTU:     "{{ admin_network_mtu     | default('1400') }}"
       ADMIN_IP:              "{{ admin_ip | default(omit) }}"
 

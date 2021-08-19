@@ -18,27 +18,18 @@
     # - TEST-SGWS-Storage3
     # - TEST-SGWS-Storage4
     - sgws-admin
-    - sgws-admin2
-    - sgws-gateway
+    # - sgws-admin2
+    # - sgws-gateway
     - sgws-storage1
     - sgws-storage2
     - sgws-storage3
-    - sgws-storage4
+    # - sgws-storage4
 
   tasks:
 
   # Shutdown and Remove StorageGRID Nodes
-  # - name: Shutdown and Remove SG VMs
-  #   include_tasks: ../tasks/remove_vm_guests.yml
-  #   vars:
-  #     vm_name:    "{{ item }}"
-  #     state:      absent
-  #   loop:         "{{ sgvms }}"
-  #   register:     facts
-
-# Deploy Admin Node
   - include_role:
-      name: remove_storagegrid_vms
+      name: remove_storagegrid_nodes
     vars:
       vars:
       vm_name:    "{{ item }}"

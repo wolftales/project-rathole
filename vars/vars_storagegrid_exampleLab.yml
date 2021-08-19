@@ -30,11 +30,14 @@ sg:
 ###
 # StorageGRID Admin Nodes
   admin:  # Primary
+    deploy:               true
     grid_network_ip:      "192.168.7.215"
     vm_memory_mb:         12288
     vm_num_cpus:          1
+    
 
   admin2:  # Non-Primary
+    deploy:               false
     grid_network_ip:     "192.168.7.216"
     vm_memory_mb:         12288
     vm_num_cpus:          4
@@ -42,6 +45,7 @@ sg:
 ###
 # StorageGRID Gateway Node
   gateway:
+    deploy:               false
     grid_network_ip:      "192.168.7.210"
     vm_memory_mb:         12288
     vm_num_cpus:          4
@@ -49,21 +53,25 @@ sg:
 ###
 # StorageGRID Storage Nodes
   storage1:
+    deploy:               true
     grid_network_ip:      "192.168.7.211"
     vm_memory_mb:         8192
     vm_num_cpus:          1
 
   storage2:
+    deploy:               true
     grid_network_ip:      "192.168.7.212"
     vm_memory_mb:         8192
     vm_num_cpus:          1
 
   storage3:
+    deploy:               true
     grid_network_ip:      "192.168.7.213"
     vm_memory_mb:         8192
     vm_num_cpus:          1
 
   storage4:
+    deploy:               false
     grid_network_ip:     "192.168.7.214"
     vm_memory_mb:         8192
     vm_num_cpus:          1
