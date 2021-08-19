@@ -34,7 +34,6 @@ sg:
     grid_network_ip:      "192.168.7.215"
     vm_memory_mb:         12288
     vm_num_cpus:          1
-    
 
   admin2:  # Non-Primary
     deploy:               false
