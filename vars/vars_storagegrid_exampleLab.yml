@@ -13,7 +13,7 @@ sg:
   # client_network_name:    "VM Network"
   # client_netmask:
   # client_gateway:
-  grid_network_config:    "STATIC"  # "STATIC", "DHCP"
+  grid_network_config:    "STATIC"  # "DISABLED", "STATIC", "DHCP"
   grid_network_name:      "VM Network"
   grid_netmask:           "255.255.255.0"
   grid_gateway:           "192.168.7.1"
