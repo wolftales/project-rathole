@@ -14,3 +14,12 @@ vcenter_cluster: "{{ vcenter.cluster }}"
 vm_datastore: "{{ vcenter.datastore }}"
 ```
 3. Adjust "files" directory so role can find SG files - `ln-s ../files`
+
+Result:
+* Worked like the older role did
+* 1 caveat was all nodes were created - need to figure out what got changed
+    * Added: ` and sg.storage1.deploy is true` to the conditional statement
+
+Feedback:
+* Should try to align varible management
+* Should see about updating the "Task name dynamically" to help illustrate progress better
