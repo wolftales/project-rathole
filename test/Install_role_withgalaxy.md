@@ -14,6 +14,7 @@ vcenter_cluster: "{{ vcenter.cluster }}"
 vm_datastore: "{{ vcenter.datastore }}"
 ```
 3. Adjust "files" directory so role can find SG files - `ln-s ../files`
+    - can leverage ovf_file varible
 
 Result:
 * Worked like the older role did
@@ -23,3 +24,8 @@ Result:
 Feedback:
 * Should try to align varible management
 * Should see about updating the "Task name dynamically" to help illustrate progress better
+
+deploy_ovf_vsim
+```
+ansible-galaxy role install -f -p ./roles git+https://github.com/madlabber/deploy_ovf_vsim.git,main
+```
