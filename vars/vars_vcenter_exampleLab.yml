@@ -10,3 +10,8 @@ vcenter:
   cluster:                "Cluster1"  # "Resource Cluster"  # Default cluster for new VM provisioning. if there is no cluster set it to ""
   datastore:              "datastore1"  #
 
+###
+# support alternate flat varible config
+###
+
+
