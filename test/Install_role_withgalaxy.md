@@ -90,6 +90,17 @@ TASK [deploy_ovf_vsim : add nics] **********************************************
 fatal: [localhost]: FAILED! => {"reason": "Could not find or access '/home/ken/Documents/git/project-rathole/test/add_nics' on the Ansible Controller."}
 ```
 
+re-ran and had this output:
+```yaml
+TASK [deploy_ovf_vsim : add nics] **********************************************
+included: /home/ken/Documents/git/project-rathole/test/roles/deploy_ovf_vsim/tasks/add_nics.yml for localhost
+
+TASK [deploy_ovf_vsim : community.vmware.vmware_guest_network] *****************
+failed: [localhost -> localhost] (item=5) => {"ansible_loop_var": "item", "changed": false, "item": "5", "msg": "Unable to connect to vCenter or ESXi API at 192.168.7.121 on TCP/443: [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1129)"}
+failed: [localhost -> localhost] (item=6) => {"ansible_loop_var": "item", "changed": false, "item": "6", "msg": "Unable to connect to vCenter or ESXi API at 192.168.7.121 on TCP/443: [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1129)"}
+...ignoring
+```
+
 4. see if `cluster join` works on `node-02` using `cluster-name`
 
 Feedback:
