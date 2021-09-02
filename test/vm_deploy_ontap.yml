@@ -2,27 +2,34 @@
 - hosts: localhost 
   name: Build ONTAP Simulator from OVA
   gather_facts: false
-  vars: 
-    ovf_file: ../files/ONTAP/vsim-netapp-DOT9.9.1-cm_nodar.ova
-    vcenter_address: vcenter.demo.lab
-    vcenter_username: administrator@vsphere.local
-    vcenter_password: ChangeMe2!
+  collections:
+  - community.vmware
+  vars:
+    ovf_file:           ../files/ONTAP/vsim-netapp-DOT9.9.1-cm_nodar.ova
+    vcenter_address:    vcenter.demo.lab
+    vcenter_username:   administrator@vsphere.local
+    vcenter_password:   ChangeMe2!
     vcenter_datacenter: "Datacenter 1"
-    vm_datastore: "datastore1"
+    vm_datastore:       "datastore1"
   vars_files:
   - ../vars/vars_vcenter_exampleLab.yml
+
   tasks:
+  
   - name: Initial cluster & node
     include_role:
       name: deploy_ovf_vsim
     vars:
-      vm_name: testVSIM-01
-      sys_serial_number: "4082368-50-7"
+      vm_name:            testVSIM-01
+      sys_serial_number:  "4082368-50-7"
       ontap_cluster_name: testVSIM
+      vm_num_nics:        6
       ontap_node_mgmt_ip: "192.168.7.248"  # Will wait for cluster setup with DHCP IP
-      ontap_netmask: "255.255.255.0"
-      ontap_gateway: "192.168.7.1"
+      ontap_netmask:      "255.255.255.0"
+      ontap_gateway:      "192.168.7.1"
       ontap_cluster_mgmt_ip: "192.168.7.247"
+      set_admin_password: true
+      ontap_password:     netapp1234
 
   - name: Second node
     include_role:
@@ -34,3 +41,5 @@
       ontap_node_mgmt_ip: "192.168.7.249"  # Will wait for cluster setup with DHCP IP
       ontap_netmask: "255.255.255.0"
       ontap_gateway: "192.168.7.1"
+      set_admin_password: true
+      ontap_password:     netapp1234
