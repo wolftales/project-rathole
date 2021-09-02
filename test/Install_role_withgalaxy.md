@@ -84,6 +84,11 @@ Is this the only place `force` is defined?
   ```
 Ran without `-e "state=present"`
 
+Re-ran and got an add_nics error:
+```yaml
+TASK [deploy_ovf_vsim : add nics] **********************************************
+fatal: [localhost]: FAILED! => {"reason": "Could not find or access '/home/ken/Documents/git/project-rathole/test/add_nics' on the Ansible Controller."}
+```
 
 4. see if `cluster join` works on `node-02` using `cluster-name`
 
