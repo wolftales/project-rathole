@@ -103,6 +103,8 @@ failed: [localhost -> localhost] (item=6) => {"ansible_loop_var": "item", "chang
 
 4. see if `cluster join` works on `node-02` using `cluster-name`
 
+`na_ontap_cluster` Module requires cluster IP . . . not sure this will work
+
 Feedback:
 
 README.md

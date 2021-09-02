@@ -15,7 +15,7 @@
   - ../vars/vars_vcenter_exampleLab.yml
 
   tasks:
-  
+
   - name: Initial cluster & node
     include_role:
       name: deploy_ovf_vsim
@@ -35,11 +35,12 @@
     include_role:
       name: deploy_ovf_vsim
     vars:
-      vm_name: testVSIM-02
-      sys_serial_number: "4034389-06-2"
+      vm_name:            testVSIM-02
+      sys_serial_number:  "4034389-06-2"
       # ontap_cluster_name: testVSIM
+      vm_num_nics:        6
       ontap_node_mgmt_ip: "192.168.7.249"  # Will wait for cluster setup with DHCP IP
-      ontap_netmask: "255.255.255.0"
-      ontap_gateway: "192.168.7.1"
+      ontap_netmask:      "255.255.255.0"
+      ontap_gateway:      "192.168.7.1"
       set_admin_password: true
       ontap_password:     netapp1234
