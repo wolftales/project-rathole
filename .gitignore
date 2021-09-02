@@ -2,7 +2,9 @@
 *.key
 *.ova
 *.ovf
+*.vmdk
 .DS_Store
 files/StorageGRID-Webscale-11.5.0/
+files/ElementOS
 secure/
 password.yml

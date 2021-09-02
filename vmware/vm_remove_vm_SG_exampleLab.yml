@@ -10,6 +10,7 @@
   - ../vars/vars_vm_deploy_sg_exampleLab.yml
   # - ../vars/vars_vcenter_password.yml
   vars:
+    grid_basename: sgws
     sgvms:
     # - TEST-SGWS-Gateway
     # - TEST-SGWS-Admin2
@@ -25,6 +26,7 @@
     - sgws-storage2
     - sgws-storage3
     - sgws-storage4
+    # - "{{ grid_basename }}-admin"
 
   tasks:
 

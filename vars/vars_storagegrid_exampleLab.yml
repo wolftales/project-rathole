@@ -5,27 +5,18 @@
 sg:
   grid_name:              "sgws"
   admin_ip:               "192.168.7.215"
-#   admin_netmask:
-#   admin_gateway:
-#   client_netmask:
-#   client_gateway:
+  # admin_network_config:  'DISABLED'
+  # admin_network_name:    "VM Network"
+  # admin_netmask:
+  # admin_gateway:
+  # client_network_config:  'DISABLED'
+  # client_network_name:    "VM Network"
+  # client_netmask:
+  # client_gateway:
+  grid_network_config:    "STATIC"  # "DISABLED", "STATIC", "DHCP"
   grid_network_name:      "VM Network"
-  grid_network_config:    "STATIC"  # "STATIC", "DHCP"
   grid_netmask:           "255.255.255.0"
   grid_gateway:           "192.168.7.1"
-
-  admin_network_config:  'DISABLED'
-  admin_network_ip:
-  admin_network_mask:
-  admin_network_gateway:
-  admin_network_esl:
-  admin_network_mtu:
-
-  client_network_config:  'DISABLED'
-  client_network_ip:
-  client_network_mask:
-  client_network_gateway:
-  client_network_mtu:
 
 ###
 # StorageGRID Admin Nodes
@@ -34,7 +25,6 @@ sg:
     grid_network_ip:      "192.168.7.215"
     vm_memory_mb:         12288
     vm_num_cpus:          1
-    
 
   admin2:  # Non-Primary
     deploy:               false
