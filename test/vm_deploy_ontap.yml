@@ -30,6 +30,7 @@
       ontap_cluster_mgmt_ip: "192.168.7.247"
       set_admin_password: true
       ontap_password:     netapp1234
+      force:              true  #Overwrite if exists - Repave
 
   - name: Second node
     include_role:
@@ -44,3 +45,4 @@
       ontap_gateway:      "192.168.7.1"
       set_admin_password: true
       ontap_password:     netapp1234
+      force:              true  #Overwrite if exists - Repave
