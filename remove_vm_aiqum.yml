@@ -1,0 +1,26 @@
+---
+- name: "Remove virtual machine"
+  hosts: localhost
+  gather_facts: no
+  connection: local
+  collections:
+    - community.vmware
+
+  vars_files:
+    - ./vars/vars_vcenter_exampleLab.yml
+  vars:
+    vms:
+      - aiqum
+      # - AIQUM
+
+  tasks:
+    # Shutdown and Remove AIQUM VM
+  - name: "Shutdown and Remove VMs {{ item }}"
+    include_tasks: ./tasks/remove_vm_guests.yml
+    # include_role:
+    #   name: ./deploy_ovf_aiqum.yml
+    vars:
+      vm_name: "{{ item }}"
+      state: absent
+    loop: "{{ vms }}"
+    register: facts

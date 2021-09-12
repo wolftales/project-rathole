@@ -32,10 +32,17 @@ StorageGRID 11.5 OVA's
 * Load-balancer (gateway) node (x1)
 * Storage nodes (x4)
 
+```
+ansible-galaxy role install -f -p ./roles git+https://github.com/madlabber/deploy_ovf_storagegrid.git,main
+```
+
 
 ### ActiveIQ Unified Manager
 AIQUM 9.9 OVA
 
+```
+ansible-galaxy role install -f -p ./roles git+https://github.com/madlabber/deploy_ovf_aiqum.git,main
+```
 
 ### Ansible & Ansible AWX
 Ansible 2.9+  
