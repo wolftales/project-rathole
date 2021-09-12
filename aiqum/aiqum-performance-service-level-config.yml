@@ -14,13 +14,11 @@
   vars_files:
   - ../vars/vars_aigum_psl_definitions.yml
 
-
   tasks:
 
   ##
   # Validate contents of var: Performance Service Levels (psl)
   ##
-  
   # - debug:
   #     msg:
   #       {
@@ -64,9 +62,9 @@
     loop:
       "{{ psl }}"
     loop_control:
-        label: "{{ item }}: {{ item.description}}"
+        label: "{{ item }}: {{ item.description }}"
     register: post_result
-  
+
   - debug:
       var: post_result
     name: 'Display post_result'
