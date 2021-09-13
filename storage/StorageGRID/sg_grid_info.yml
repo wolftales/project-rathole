@@ -54,7 +54,7 @@
   #   - children
   #   loop_control:
   #     label: "{{ item.0.name }} - {{ item.1.name }}"
-  
+
   - name: Print GRID details - All
     debug:
       var: grid_info_results
