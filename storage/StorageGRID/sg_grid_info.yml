@@ -1,5 +1,6 @@
 ---
 - hosts: localhost
+  name: "Get GRID Info"
   gather_facts: no
   collections:
   - netapp.storagegrid
@@ -27,7 +28,7 @@
       }
     register: auth_response
 
-  - name: Get Info from Grid
+  - name: Get Grid INFO
     netapp.storagegrid.na_sg_grid_info:
       gather_subset:
       - all

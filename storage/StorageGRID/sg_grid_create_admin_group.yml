@@ -1,0 +1,49 @@
+---
+- name: 'StorageGRID: Create admin group: {{ grid_admin_group }}'
+  hosts: localhost
+  gather_facts: no
+  collections:
+  - netapp.storagegrid
+  vars_files:
+  - vars_sg.yml
+  vars:
+    grid_auth: &grid_auth
+      api_url:                 "{{ grid_admin_base_url }}"
+      auth_token:              "{{ auth_response.json.data }}"
+      validate_certs:          false
+
+  tasks:
+
+  - name: Get GRID authorization token
+    uri:
+      url:                     "{{ grid_admin_base_url }}/api/v3/authorize"
+      method:                  POST
+      validate_certs:          false
+      body_format:             json
+      body: {
+        "username":            "{{ grid_admin_username }}",
+        "password":            "{{ grid_admin_password }}",
+        "cookie":              false,
+        "csrfToken":           false
+      }
+    register: auth_response
+
+
+  - name: Create a StorageGRID admin group
+    netapp.storagegrid.na_sg_grid_group:
+      <<: *grid_auth
+
+      state: present
+      display_name: "{{ grid_admin_group }}"
+      unique_name: "group/{{ grid_admin_group }}"
+      management_policy:
+        # tenant_accounts: true
+        # maintenance: true
+        root_access: true
+
+    register: grid_group_results
+
+  - name: Print GRID response
+    debug:
+      msg:
+      - "{{ grid_group_results }}"

@@ -38,7 +38,7 @@ ansible-galaxy role install -f -p ./roles git+https://github.com/madlabber/deplo
 
 
 ### ActiveIQ Unified Manager
-AIQUM 9.9 OVA
+AIQUM 9.9 OVA (Currently running 9.10x2 EVP)
 
 ```
 ansible-galaxy role install -f -p ./roles git+https://github.com/madlabber/deploy_ovf_aiqum.git,main
