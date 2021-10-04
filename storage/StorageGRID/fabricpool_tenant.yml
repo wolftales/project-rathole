@@ -41,13 +41,13 @@
       <<: *grid_auth
 
       state:                   present
-      name:                    "{{ tenant.root_username }}"
+      name:                    "{{ tenant.group_name }}"
       protocol:                s3
       management:              true
       use_own_identity_source: false
       allow_platform_services: false
-      # password:                "{{ tenant.root_passwd }}"
-      password:                fabricpool_passwd
+      password:                "{{ tenant.root_passwd }}"
+      # password:                fabricpool_passwd
       update_password:         on_create
       # quota_size:              "{{ (DEFAULT_QUOTA | int ) * ( 1000 | pow(3) ) | int }}"
       # quota_size_unit:         bytes
@@ -55,15 +55,15 @@
     no_log: false
     register: fp_account_results
 
-  - name: Print GRID Tenant account response
-    debug:
-      msg:
-      - "{{ fp_account_results }}"
+  # - name: Print GRID Tenant account response
+  #   debug:
+  #     msg:
+  #     - "{{ fp_account_results }}"
 
-  - name: Print accountId
-    debug:
-      msg:
-      - "{{ fp_account_results.resp.id }}"
+  # - name: Print accountId
+  #   debug:
+  #     msg:
+  #     - "{{ fp_account_results.resp.id }}"
 
   ###
   # GET tenant infor by API
@@ -84,7 +84,7 @@
     register: tenant_auth_response
 
 
-  # - name: Print GRID response
-  #   debug:
-  #     msg:
-  #     - "{{ fp_account_results }}"
+  - name: Print GRID response
+    debug:
+      msg:
+      - "{{ fp_account_results }}"

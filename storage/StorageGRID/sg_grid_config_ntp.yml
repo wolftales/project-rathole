@@ -35,7 +35,7 @@
       state: present
       passphrase: "{{ grid_passphrase }}"
       ntp_servers: "{{ grid_ntp_srvs }}"
-      
+
     register: grid_ntp_results
 
   - name: Print GRID Response

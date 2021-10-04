@@ -12,9 +12,9 @@
       auth_token:              "{{ auth_response.json.data }}"
       validate_certs:          false
     tenant_auth: &tenant_auth
-      api_url:                  "{{ grid_admin_base_url }}"
-      auth_token:               "{{ tenant_auth_response.json.data }}"
-      validate_certs:           false
+      api_url:                 "{{ grid_admin_base_url }}"
+      auth_token:              "{{ tenant_auth_response.json.data }}"
+      validate_certs:          false
 
   tasks:
 
@@ -43,26 +43,28 @@
       <<: *grid_auth
     register: grid_tenants
 
-  - name: Print GRID_TENANTS response
-    debug:
-      msg:
-      - "{{ grid_tenants | to_nice_yaml }}"
+  # - name: Print GRID_TENANTS response
+  #   debug:
+  #     msg:
+  #     - "{{ grid_tenants }}"
 
   - name: Print GRID_TENANTS - TOO response
     debug:
       msg:
-      # - "{{ grid_tenants.[grid/accounts].data.[item].id }}"
-      # - "{{ grid_tenants.[grid/accounts].data.name }}"
-      - "{{ grid_tenants | to_nice_yaml }}"
-    loop: "{{ grid_tenants[grid/accounts][data] }}"
-    # when: grid_tenants.['grid/accounts'].data.0.name == {{ tenant.group_name }}
-
+  #     # - "{{ grid_tenants }}"
+  #     # - "{{ grid_tenants.sg_info['grid/accounts'].data }}"
+        - "{{ (grid_tenants.sg_info['grid/accounts'].data | list) | json_query('[*].name') }}"
 
   - name: Get tenant by name
     set_fact:
       selected_tenant: "{{ grid_tenants.sg_info['grid/accounts'].data |
-                        selectattr('name', 'equalto', [tenant.group_name] ) |
+                        selectattr('name', 'equalto', tenant.group_name ) |
                         list }}"
+
+  - name: Print selected_tenant response
+    debug:
+      msg:
+      - "{{ selected_tenant }}"
 
   - name: Check for unique tenant
     fail:
@@ -77,7 +79,6 @@
       validate_certs:          false
       body_format:             json
       body: {
-        # "accountId":           "{{ fp_account_results.resp.id }}",
         "accountId":           "{{ selected_tenant.0.id }}",
         "username":            "{{ tenant.root_username }}",
         "password":            "{{ tenant.root_passwd }}",
@@ -92,11 +93,11 @@
 
       state: present
 
-      # full_name:            "{{ item }}"
+      full_name:            "{{ item }}"
       # # unique_user_name:     "{{ item }}"
-      # unique_name:          "user/{{ item }}"
-      full_name:            "sandbox"
-      unique_name:          "user/sandbox"
+      unique_name:          "user/{{ item }}"
+      # full_name:            "sandbox"
+      # unique_name:          "user/sandbox"
       member_of:            "group/{{ tenant.group_name }}"
       password:             "{{ tenant.users_passwd }}"
       # update_password:        on_create
@@ -109,8 +110,8 @@
     na_sg_org_user_s3_key:
       <<: *tenant_auth
 
-      state: present
-      unique_name:        "user/{{ item }}"
+      state:              present
+      unique_user_name:   "user/{{ item }}"
 
     with_items: "{{ tenant.users }}"
     register: s3_cred
@@ -122,15 +123,20 @@
 
   - name: Create directory if it does not exist
     file:
-      path:               "../../files/s3_keys{{ tenant.group_name }}"
+      path:               "../../files/s3_keys/{{ tenant.group_name }}"
       state:              directory
 
     when:
       not s3cred_folder.stat.exists
 
+  # - name: Print s3_cred response
+  #   debug:
+  #     msg:
+  #     - "{{ s3_cred.results.0.resp }}"
+
   - name: Write credentials to file
     copy:
-      content:            "{{ s3_cred.resp }}"
+      content:            "{{ s3_cred.results.0.resp }}"
       dest:               "../../files/s3_keys/{{ tenant.group_name }}/{{ item }}"
 
     with_items: "{{ tenant.users }}"

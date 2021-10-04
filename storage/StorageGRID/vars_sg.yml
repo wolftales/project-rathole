@@ -49,9 +49,9 @@ tenant:
   group_name:     fabricpool
   root_username:  root
   root_passwd:    fabricpool_passwd
-  users:          sandbox
-  # - sandbox
-  # - ontap-cl01
-  # - sour97
-  # - dest97
+  users:
+  - sandbox
+  - ontap-cl01
+  - sour97
+  - dest97
   users_passwd:   fabricpool_passwd
