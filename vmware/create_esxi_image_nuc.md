@@ -249,6 +249,20 @@ Get-EsxSoftwareDepot
 
 # Load SoftwareDepot(s)
 
+Add-EsxSoftwareDepot C:\Users\wolft\Downloads\vmware\VMware-ESXi-7.0U2a-17867351-depot.zip
+
+Depot Url
+---------
+zip:C:\Users\wolft\Downloads\vmware\VMware-ESXi-7.0U2a-17867351-depot.zip?index.xml
+
+
+Add-EsxSoftwareDepot C:\Users\wolft\Downloads\vmware\Net-Community-Driver_1.2.0.0-1vmw.700.1.0.15843807_18028830.zip
+
+Depot Url
+---------
+zip:C:\Users\wolft\Downloads\vmware\Net-Community-Driver_1.2.0.0-1vmw.700.1.0.15843807_18028830.zip?index.xml
+
+
 Get-EsxSoftwareDepot
 
 Depot Url
@@ -256,6 +270,25 @@ Depot Url
 zip:C:\Users\wolft\Downloads\vmware\VMware-ESXi-7.0U2a-17867351-depot.zip?index.xml
 zip:C:\Users\wolft\Downloads\vmware\Net-Community-Driver_1.2.0.0-1vmw.700.1.0.15843807_18028830.zip?index.xml
 
+## Check "Acceptance Level"
+
+Get-EsxImageProfile
+
+Name                           Vendor          Last Modified   Acceptance Level
+----                           ------          -------------   ----------------
+ESXi-7.0U2a-17867351-no-tools  VMware, Inc.    4/9/2021 5:5... PartnerSupported
+ESXi-7.0U2a-17867351-standard  VMware, Inc.    4/29/2021 12... PartnerSupported
+
+## Clone Image & Set Image to CommunitySupported 
+
+Get-EsxImageProfile
+
+Name                           Vendor          Last Modified   Acceptance Level
+----                           ------          -------------   ----------------
+ESXi-7.0U2a-17867351-no-tools  VMware, Inc.    4/9/2021 5:5... PartnerSupported
+ESXi-7.0U2a-17867351-standard  VMware, Inc.    4/29/2021 12... PartnerSupported
+
+## Clone (Create) new image)
 
 Get-EsxImageProfile | ft Name
 
@@ -264,25 +297,69 @@ Name
 ESXi-7.0U2a-17867351-no-tools
 ESXi-7.0U2a-17867351-standard
 
+New-EsxImageProfile -CloneProfile ESXi-7.0U2a-17867351-standard -Name ESXi-7.0U2-Custom -Vendor "Wolftales, LTD."
 
+**Or**
 New-EsxImageProfile -CloneProfile ESXi-7.0U2a-17867351-standard -Name ESXI-7.0U2a-CU
 STOM
 
 cmdlet New-EsxImageProfile at command pipeline position 1
 Supply values for the following parameters:
 (Type !? for Help.)
-Vendor: WOlftales, LTD.
+Vendor: Wolftales, LTD.
 
 Name                           Vendor          Last Modified   Acceptance Level
 ----                           ------          -------------   ----------------
-ESXI-7.0U2a-CUSTOM             WOlftales, LTD. 4/29/2021 12... PartnerSupported
+ESXi-7.0U2-Custom              Wolftales, LTD. 4/29/2021 12... PartnerSupported
 
 
-Add-EsxSoftwarePackage -ImageProfile ESXI-7.0U2a-CUSTOM -SoftwarePackage net-community -Force
+PS C:\Users\wolft\Downloads\vmware> Get-EsxImageProfile | ft Name
+
+Name
+----
+ESXi-7.0U2-Custom
+ESXi-7.0U2a-17867351-no-tools
+ESXi-7.0U2a-17867351-standard
+
+## Set Image to CommunitySupported
+
+PS C:\Users\wolft\Downloads\vmware> Get-EsxImageProfile
 
 Name                           Vendor          Last Modified   Acceptance Level
 ----                           ------          -------------   ----------------
-ESXI-7.0U2a-CUSTOM             WOlftales, LTD. 10/6/2021 10... PartnerSupported
+ESXi-7.0U2-Custom              Wolftales, LTD. 4/29/2021 12... PartnerSupported
+ESXi-7.0U2a-17867351-no-tools  VMware, Inc.    4/9/2021 5:5... PartnerSupported
+ESXi-7.0U2a-17867351-standard  VMware, Inc.    4/29/2021 12... PartnerSupported
+
+Set-EsxImageProfile -name ESXi-7.0U2-Custom -AcceptanceLevel CommunitySupported
+
+cmdlet Set-EsxImageProfile at command pipeline position 1
+Supply values for the following parameters:
+(Type !? for Help.)
+ImageProfile: ESXi-7.0U2-Custom
+
+Name                           Vendor          Last Modified   Acceptance Level
+----                           ------          -------------   ----------------
+ESXi-7.0U2-Custom              Wolftales, LTD. 10/7/2021 8:... CommunitySupported
+
+
+## Check & Verify
+
+Get-EsxImageProfile 
+
+Name                           Vendor          Last Modified   Acceptance Level
+----                           ------          -------------   ----------------
+ESXi-7.0U2-Custom              Wolftales, LTD. 10/7/2021 9:... CommunitySupported
+ESXi-7.0U2a-17867351-no-tools  VMware, Inc.    4/9/2021 5:5... PartnerSupported
+ESXi-7.0U2a-17867351-standard  VMware, Inc.    4/29/2021 12... PartnerSupported
+
+## Add Custom driver(s)
+
+Add-EsxSoftwarePackage -ImageProfile ESXi-7.0U2-Custom -SoftwarePackage net-community -Force
+
+Name                           Vendor          Last Modified   Acceptance Level
+----                           ------          -------------   ----------------
+ESXi-7.0U2-Custom              Wolftales, LTD. 10/7/2021 9:... CommunitySupported
 
 
 Set-EsxImageProfile -AcceptanceLevel CommunitySupported –ImageProfile ESXI-7.0U2a-CUSTOM
@@ -291,7 +368,13 @@ Name                           Vendor          Last Modified   Acceptance Level
 ----                           ------          -------------   ----------------
 ESXI-7.0U2a-CUSTOM             WOlftales, LTD. 10/6/2021 10... CommunitySupported
 
+Get-EsxSoftwarePackage | findstr net-community
+net-community            1.2.0.0-1vmw.700.1.0.15843807  VMW        5/7/2021 4:57...
 
+## Export EsxImageProfile out to ISO
 ### Added `-nosignaturecheck`
+
 Export-EsxImageProfile -ImageProfile ESXI-7.0U2a-CUSTOM -FilePath C:\Users\wolft\Downloads\vmware\ESXI-7.0.2-CUSTOM.iso -ExportToIso -nosignaturecheck -Force
+
+Export-EsxImageProfile -ImageProfile ESXi-7.0U2-Custom -FilePath C:\Users\wolft\Downloads\vmware\ESXi-7.0U2-Custom.iso -ExportToIso -NoSignatureCheck -Force
 
