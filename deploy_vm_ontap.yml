@@ -1,0 +1,52 @@
+---
+- hosts: localhost
+  name: Build ONTAP Simulator from OVA
+  gather_facts: false
+  collections:
+    - community.vmware
+  vars:
+    ovf_file:           files/ONTAP/vsim-netapp-DOT9.9.1-cm_nodar.ova
+    # ovf_version:        9.9.1
+    # ovf_version:        "9.9.1"
+    # ovf_file:           "files/vsim-netapp-DOT{{ovf_version}}-cm_nodar.ova"
+
+    vcenter_address:    vcenter.demo.lab
+    vcenter_username:   administrator@vsphere.local
+    vcenter_password:   ChangeMe2!
+    vcenter_datacenter: "Datacenter 1"
+    vm_datastore:       "datastore1"
+  vars_files:
+    - vars/vars_vcenter_exampleLab.yml
+    - vars/vars_ontap_redshirt.yml
+
+  tasks:
+    - name: Initial cluster & node
+      include_role:
+        name: deploy_ovf_vsim
+      vars:
+        vm_name:              "{{ ontap_cluster_name }}-01"
+        sys_serial_number:    "4082368-50-7"
+        ontap_cluster_name:   "{{ cluster }}"
+        vm_num_nics:          6
+        ontap_node_mgmt_ip:   "{{ clus.node1.noda_mgmt_ip }}"
+        ontap_netmask:        "{{ clus.netmask }}"
+        ontap_gateway:        "{{ clus.gateway }}"
+        ontap_cluster_mgmt_ip: "{{ clus.mgmt }}"
+        set_admin_password:   true
+        ontap_password:       netapp1234
+        force:                true  #Overwrite if exists - Repave
+
+    - name: Second node
+      include_role:
+        name: deploy_ovf_vsim
+      vars:
+        vm_name:              "{{ ontap_cluster_name }}-02"
+        sys_serial_number:    "4034389-06-2"
+        vm_num_nics:          6
+        ontap_node_mgmt_ip:   "{{ clus.node2.noda_mgmt_ip }}"
+        ontap_netmask:        "{{ clus.netmask }}"
+        ontap_gateway:        "{{ clus.gateway }}"
+        ontap_cluster_mgmt_ip: "{{ clus.mgmt }}"
+        set_admin_password:   true
+        ontap_password:       netapp1234
+        force:                true  #Overwrite if exists - Repave
