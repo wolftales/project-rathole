@@ -15,14 +15,14 @@ clus:
   aggr:           "{{ cluster | replace('-','_') }}"  # Replaces - with _
 
 # Node & SVM Network IP address Information
-node1:
-  node_mgmt_ip:   192.168.7.241
-  icl:            192.168.7.242
-  svm_lif1:       192.168.7.245
-node2:
-  node_mgmt_ip:   192.168.7.243
-  icl:            192.168.7.244
-  svm_lif2:       192.168.7.246
+  node1:
+    node_mgmt_ip:   192.168.7.241
+    icl:            192.168.7.242
+    svm_lif1:       192.168.7.245
+  node2:
+    node_mgmt_ip:   192.168.7.243
+    icl:            192.168.7.244
+    svm_lif2:       192.168.7.246
 
 # Authentification Defaults
 netapp_hostname:  "{{ clus.mgmt }}"
