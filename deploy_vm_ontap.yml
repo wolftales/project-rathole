@@ -5,6 +5,7 @@
   collections:
     - community.vmware
   vars:
+    # ovf_file:           /home/ken/Documents/git/project-rathole/files/ONTAP/vsim-netapp-DOT9.9.1-cm_nodar.ova
     ovf_file:           files/ONTAP/vsim-netapp-DOT9.9.1-cm_nodar.ova
     # ovf_version:        9.9.1
     # ovf_version:        "9.9.1"
