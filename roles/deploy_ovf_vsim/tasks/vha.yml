@@ -16,20 +16,20 @@
 
 - name: locate ovf ovf_file
   stat:
-    path: "{{ovf_file | default('')}}" 
+    path: "{{ ovf_file | default('') }}" 
   delegate_to: localhost
   register: ovf_location
 
 - name: Check althernate ovf_file location
   stat: 
-    path: "{{playbook_dir}}/files/vsim-netapp-DOT{{ovf_version}}-cm_nodar.ova"
+    path: "{{ playbook_dir }}/files/vsim-netapp-DOT{{ ovf_version }}-cm_nodar.ova"
   delegate_to: localhost
   register: ovf_playbook_dir
   when: not ovf_location.stat.exists
 
 - name: select ovf_file
   set_fact: 
-    ovf_file: "{{playbook_dir}}/files/vsim-netapp-DOT{{ovf_version}}-cm_nodar.ova"
+    ovf_file: "{{ playbook_dir }}/files/vsim-netapp-DOT{{ ovf_version }}-cm_nodar.ova"
   when:
     - not ovf_location.stat.exists
     - ovf_playbook_dir.stat.exists
@@ -57,18 +57,18 @@
 
 - name: parse vdevinit
   set_fact:
-    shelf0_type:    '{{  (vdevinit.split(",")[0] | default("31:14:0")).split(":")[0] | default("31")}}'  
-    shelf0_qty:     '{{  (vdevinit.split(",")[0] | default("31:14:0")).split(":")[1] | default("14")}}' 
-    shelf0_shelf:   '{{  (vdevinit.split(",")[0] | default("31:14:0")).split(":")[2] | default("0")}}'   
-    shelf1_type:    '{{  (vdevinit.split(",")[1] | default("31:0:1")).split(":")[0] | default("")}}'  
-    shelf1_qty:     '{{  (vdevinit.split(",")[1] | default("31:0:1")).split(":")[1] | default("")}}' 
-    shelf1_shelf:   '{{  (vdevinit.split(",")[1] | default("31:0:1")).split(":")[2] | default("")}}'      
-    shelf2_type:    '{{  (vdevinit.split(",")[2] | default("31:0:2")).split(":")[0] | default("")}}'  
-    shelf2_qty:     '{{  (vdevinit.split(",")[2] | default("31:0:2")).split(":")[1] | default("")}}' 
-    shelf2_shelf:   '{{  (vdevinit.split(",")[2] | default("31:0:2")).split(":")[2] | default("")}}'  
-    shelf3_type:    '{{  (vdevinit.split(",")[3] | default("31:0:3")).split(":")[0] | default("")}}'  
-    shelf3_qty:     '{{  (vdevinit.split(",")[3] | default("31:0:3")).split(":")[1] | default("")}}' 
-    shelf3_shelf:   '{{  (vdevinit.split(",")[3] | default("31:0:3")).split(":")[2] | default("")}}'   
+    shelf0_type:    '{{  (vdevinit.split(",")[0] | default("31:14:0")).split(":")[0] | default("31") }}'  
+    shelf0_qty:     '{{  (vdevinit.split(",")[0] | default("31:14:0")).split(":")[1] | default("14") }}' 
+    shelf0_shelf:   '{{  (vdevinit.split(",")[0] | default("31:14:0")).split(":")[2] | default("0") }}'   
+    shelf1_type:    '{{  (vdevinit.split(",")[1] | default("31:0:1")).split(":")[0] | default("") }}'  
+    shelf1_qty:     '{{  (vdevinit.split(",")[1] | default("31:0:1")).split(":")[1] | default("") }}' 
+    shelf1_shelf:   '{{  (vdevinit.split(",")[1] | default("31:0:1")).split(":")[2] | default("") }}'      
+    shelf2_type:    '{{  (vdevinit.split(",")[2] | default("31:0:2")).split(":")[0] | default("") }}'  
+    shelf2_qty:     '{{  (vdevinit.split(",")[2] | default("31:0:2")).split(":")[1] | default("") }}' 
+    shelf2_shelf:   '{{  (vdevinit.split(",")[2] | default("31:0:2")).split(":")[2] | default("") }}'  
+    shelf3_type:    '{{  (vdevinit.split(",")[3] | default("31:0:3")).split(":")[0] | default("") }}'  
+    shelf3_qty:     '{{  (vdevinit.split(",")[3] | default("31:0:3")).split(":")[1] | default("") }}' 
+    shelf3_shelf:   '{{  (vdevinit.split(",")[3] | default("31:0:3")).split(":")[2] | default("") }}'   
 # - name: debug
 #   debug:
 #     msg:
@@ -162,7 +162,7 @@
     name: '{{ vm_name }}'
     state: present
     hardware:
-      memory_mb: "{{ vm_memory_mb}}"
+      memory_mb: "{{ vm_memory_mb }}"
       num_cpus: '{{ vm_num_cpus }}'
     # this broke in ansible 2.10
     # customvalues:
@@ -198,7 +198,7 @@
     password: '{{ vcenter_password }}'    
     validate_certs: no 
     name: "{{ vm_name }}"
-    keys_send: '{{item}}'
+    keys_send: '{{ item }}'
   delegate_to: localhost
   register: sendkeys_result
   retries: 3
@@ -213,7 +213,7 @@
     validate_certs: no 
     name: "{{ vm_name }}"
     keys_send: ENTER
-    string_send: "{{item}}"
+    string_send: "{{ item }}"
   delegate_to: localhost
   register: sendkeys_result
   retries: 3
@@ -319,16 +319,16 @@
       validate_certs: no 
       name: "{{ vm_name }}"
       keys_send: ENTER
-      string_send: "{{item}}"
+      string_send: "{{ item }}"
     delegate_to: localhost
     loop: 
       - "admin"
       - "cluster setup"
       - "yes"
       - "e0c" # node mgmt port
-      - "{{ontap_node_mgmt_ip}}"
-      - "{{ontap_netmask}}"
-      - "{{ontap_gateway}}"
+      - "{{ ontap_node_mgmt_ip }}"
+      - "{{ ontap_netmask }}"
+      - "{{ ontap_gateway }}"
       - "" # this completes the node setup phase
   when: ontap_node_mgmt_ip != ""
 # block:end
@@ -341,7 +341,7 @@
     validate_certs: no 
     name: "{{ vm_name }}"
     keys_send: ENTER
-    string_send: "{{item}}"
+    string_send: "{{ item }}"
   delegate_to: localhost
   loop: 
     - "quit"
@@ -349,14 +349,14 @@
     - "login"
     - "password"
     - "" # at this point the admin password is blank
-    - "{{ontap_password}}"
-    - "{{ontap_password}}"
+    - "{{ ontap_password }}"
+    - "{{ ontap_password }}"
     - "" # this completes the node setup phase  
   when: 
     - set_admin_password
     - ontap_cluster_mgmt_ip is undefined or ontap_cluster_mgmt_ip == ""
 
-- name: 'Run cluster setup on {{vm_name}}'
+- name: 'Run cluster setup on {{ vm_name }}'
   block:
   - name: Begin cluster setup
     community.vmware.vmware_guest_sendkey:
@@ -366,15 +366,15 @@
       validate_certs: no 
       name: "{{ vm_name }}"
       keys_send: ENTER
-      string_send: "{{item}}"
+      string_send: "{{ item }}"
     delegate_to: localhost
     loop: 
       - "create" # operation create|join
       - "no" # single node cluster yes|no
       - "yes" # use default cluster lif configuration
-      - "{{ontap_password}}"
-      - "{{ontap_password}}" # confirm password
-      - "{{ontap_cluster_name | default(vm_name) }}"
+      - "{{ ontap_password }}"
+      - "{{ ontap_password }}" # confirm password
+      - "{{ ontap_cluster_name | default(vm_name) }}"
       - "" # This is here to force the enter key to be pressed
 
   - name: Wait 120 seconds for cluster setup
@@ -393,12 +393,12 @@
     delegate_to: localhost
     loop: 
       - "e0c" # cluster mgmt port
-      - "{{ontap_cluster_mgmt_ip}}"
-      - "{{ontap_netmask}}"
-      - "{{ontap_gateway}}"
-      - "{{ontap_dns_domain}}" 
-      - "{{ontap_dns_server}}"
-      - "{{ontap_location}}" # single node cluster yes|no
+      - "{{ ontap_cluster_mgmt_ip }}"
+      - "{{ ontap_netmask }}"
+      - "{{ ontap_gateway }}"
+      - "{{ ontap_dns_domain }}" 
+      - "{{ ontap_dns_server }}"
+      - "{{ ontap_location }}" # single node cluster yes|no
       - "" # this is here to force the enter key after the preceding command
 
 #add_nodes_by_serial 
@@ -418,9 +418,9 @@
         username: '{{ vcenter_username }}'
         password: '{{ vcenter_password }}'     
         validate_certs: no 
-        name: "{{vm_name}}"
+        name: "{{ vm_name }}"
         keys_send: ENTER
-        string_send: "{{item}}"
+        string_send: "{{ item }}"
       delegate_to: localhost
       loop_control:
         pause: 5
@@ -433,7 +433,7 @@
         username: '{{ vcenter_username }}'
         password: '{{ vcenter_password }}'     
         validate_certs: no 
-        name: "{{vm_name}}"
+        name: "{{ vm_name }}"
         keys_send: ENTER
       delegate_to: localhost
 
@@ -447,8 +447,8 @@
         username: '{{ vcenter_username }}'
         password: '{{ vcenter_password }}'     
         validate_certs: no 
-        name: "{{vm_name}}"
-        string_send: "{{ontap_password}}"
+        name: "{{ vm_name }}"
+        string_send: "{{ ontap_password }}"
       delegate_to: localhost
 
     - name: press enter
@@ -457,7 +457,7 @@
         username: '{{ vcenter_username }}'
         password: '{{ vcenter_password }}'     
         validate_certs: no 
-        name: "{{vm_name}}"
+        name: "{{ vm_name }}"
         keys_send: ENTER
       delegate_to: localhost
 
@@ -474,9 +474,9 @@
       username: '{{ vcenter_username }}'
       password: '{{ vcenter_password }}'     
       validate_certs: no 
-      name: "{{vm_name}}"
+      name: "{{ vm_name }}"
       keys_send: ENTER
-      string_send: "{{item}}"
+      string_send: "{{ item }}"
     delegate_to: localhost
     loop_control:
       pause: 5
@@ -494,9 +494,9 @@
       username: '{{ vcenter_username }}'
       password: '{{ vcenter_password }}'     
       validate_certs: no 
-      name: "{{vm_name}}"
+      name: "{{ vm_name }}"
       keys_send: ENTER
-      string_send: "{{item}}"
+      string_send: "{{ item }}"
     delegate_to: localhost
     loop: 
       - "ngsh -c \"add-node -cluster-ips $(ngsh -c 'show-discovered -fields address' | grep {{add_nodes_by_serial}}|cut -d' ' -f2)\""
@@ -516,9 +516,9 @@
       username: '{{ vcenter_username }}'
       password: '{{ vcenter_password }}'     
       validate_certs: no 
-      name: "{{vm_name}}"
+      name: "{{ vm_name }}"
       keys_send: ENTER
-      string_send: "{{item}}"
+      string_send: "{{ item }}"
     delegate_to: localhost
     loop: 
       - "exit"
