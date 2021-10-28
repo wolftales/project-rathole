@@ -1,5 +1,5 @@
 ---
-- name: 'StorageGRID: Configure NTP'
+- name: 'StorageGRID: Create admin group: {{ grid_admin_group }}'
   hosts: localhost
   gather_facts: no
   collections:
@@ -28,17 +28,22 @@
       }
     register: auth_response
 
-  - name: update NTP servers on StorageGRID
-    netapp.storagegrid.na_sg_grid_ntp:
+
+  - name: Create a StorageGRID admin group
+    netapp.storagegrid.na_sg_grid_group:
       <<: *grid_auth
 
       state: present
-      passphrase: "{{ grid_passphrase }}"
-      ntp_servers: "{{ grid_ntp_srvs }}"
+      display_name: "{{ grid_admin_group }}"
+      unique_name: "group/{{ grid_admin_group }}"
+      management_policy:
+        # tenant_accounts: true
+        # maintenance: true
+        root_access: true
 
-    register: grid_ntp_results
+    register: grid_group_results
 
-  - name: Print GRID Response
+  - name: Print GRID response
     debug:
       msg:
-      - "{{ grid_ntp_results }}"
+      - "{{ grid_group_results }}"

@@ -5,7 +5,7 @@
   collections:
     - community.vmware
   vars:
-    ovf_file: ../files/ONTAP/vsim-netapp-DOT9.9.1-cm_nodar.ova
+    # ovf_file: ../files/ONTAP/vsim-netapp-DOT9.9.1-cm_nodar.ova
     vcenter_address: vcenter.demo.lab
     vcenter_username: administrator@vsphere.local
     vcenter_password: ChangeMe2!

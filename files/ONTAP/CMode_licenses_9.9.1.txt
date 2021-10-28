@@ -1,0 +1,71 @@
+
+CLUSTERED SIMULATE ONTAP LICENSES
++++++++++++++++++++++++++++++++++
+
+These are the licenses that you use with the clustered Data ONTAP version 
+of Simulate ONTAP to enable Data ONTAP features.
+
+There are three groups of licenses in this file:
+
+ - cluster base license
+ - feature licenses 
+ - feature licenses for the second node of a 2-node cluster
+
+
+Cluster Base License (Serial Number 1-80-000008)
+================================================
+
+You use the cluster base license when setting up the first simulator in a cluster.
+
+Cluster Base license = SMKQROWJNQYQSDAAAAAAAAAAAAAA
+
+
+Clustered Data ONTAP Feature Licenses
+=====================================
+
+You use the feature licenses to enable unique Data ONTAP features on your simulator.
+
+
+Licenses for the first node (Serial Number 4082368507)
+---------------------------------------------------------
+
+Use these licenses with the VMware Workstation, VMware Player, and VMware Fusion build.
+
+Feature		          License Code                   Description
+-------------------   ----------------------------   --------------------------------------------
+
+CIFS 		          YVUCRRRRYVHXCFABGAAAAAAAAAAA   CIFS protocol
+FCP 		          WKQGSRRRYVHXCFABGAAAAAAAAAAA   Fibre Channel Protocol 
+FlexClone 	          SOHOURRRYVHXCFABGAAAAAAAAAAA   FlexClone
+Insight_Balance           YBSOYRRRYVHXCFABGAAAAAAAAAAA   OnCommand Insight and Balance products
+iSCSI 		          KQSRRRRRYVHXCFABGAAAAAAAAAAA   iSCSI protocol
+NFS 		          MBXNQRRRYVHXCFABGAAAAAAAAAAA   NFS protocol
+SnapLock 	          QDDSVRRRYVHXCFABGAAAAAAAAAAA   SnapLock Compliance
+SnapManager               CYAHWRRRYVHXCFABGAAAAAAAAAAA   SnapManager and SnapDrive products
+SnapMirror 	          GUJZTRRRYVHXCFABGAAAAAAAAAAA   SnapMirror, including synchronous SnapMirror
+
+SnapProtect               OSYVWRRRYVHXCFABGAAAAAAAAAAA   SnapProtect Applications
+SnapRestore 	          UZLKTRRRYVHXCFABGAAAAAAAAAAA   SnapRestore
+SnapVault 	          EJFDVRRRYVHXCFABGAAAAAAAAAAA   SnapVault primary and secondary
+
+
+Licenses for the second node in a cluster (Serial Number 4034389062)
+--------------------------------------------------------------------
+
+Use these licenses with the second simulator in a cluster 
+
+Feature		          License Code                   Description
+-------------------   ----------------------------   --------------------------------------------
+
+CIFS 		          MHEYKUNFXMSMUCEZFAAAAAAAAAAA   CIFS protocol
+FCP 		          KWZBMUNFXMSMUCEZFAAAAAAAAAAA   Fibre Channel Protocol 
+FlexClone 	          GARJOUNFXMSMUCEZFAAAAAAAAAAA   FlexClone
+Insight_Balance           MNBKSUNFXMSMUCEZFAAAAAAAAAAA   OnCommand Insight and Balance products
+iSCSI 		          YBCNLUNFXMSMUCEZFAAAAAAAAAAA   iSCSI protocol
+NFS 		          ANGJKUNFXMSMUCEZFAAAAAAAAAAA   NFS protocol
+SnapLock 	          EPMNPUNFXMSMUCEZFAAAAAAAAAAA   SnapLock Compliance
+SnapManager               QJKCQUNFXMSMUCEZFAAAAAAAAAAA   SnapManager and SnapDrive products
+SnapMirror 	          UFTUNUNFXMSMUCEZFAAAAAAAAAAA   SnapMirror, including synchronous SnapMirror
+SnapProtect               CEIRQUNFXMSMUCEZFAAAAAAAAAAA   SnapProtect Applications
+SnapRestore 	          ILVFNUNFXMSMUCEZFAAAAAAAAAAA   SnapRestore
+SnapVault 	          SUOYOUNFXMSMUCEZFAAAAAAAAAAA   SnapVault primary and secondary

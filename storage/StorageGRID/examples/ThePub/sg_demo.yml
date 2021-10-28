@@ -4,7 +4,7 @@
   collections:
     - netapp.storagegrid
   vars_files:
-    - sg_vars.yaml
+    - sg_vars.yml
   vars_prompt:
     - name:   grid_username
       prompt: What is your username for StorageGRID?

@@ -1,0 +1,31 @@
+###
+#  Ansible vars file sample for a basic ONTAP cluster & vserver
+#
+###
+
+###
+# Varibles for ONTAP cluster setup & config
+cluster:          redshirt
+clus:
+  name:           "{{ cluster }}"
+  loc:            VSIM                   # 'system snmp location'
+  mgmt:           192.168.7.240
+  netmask:        255.255.255.0
+  gateway:        192.168.7.1
+  aggr:           "{{ cluster | replace('-','_') }}"  # Replaces - with _
+
+# Node & SVM Network IP address Information
+  node1:
+    node_mgmt_ip:   192.168.7.241
+    icl:            192.168.7.242
+    svm_lif1:       192.168.7.245
+  node2:
+    node_mgmt_ip:   192.168.7.243
+    icl:            192.168.7.244
+    svm_lif2:       192.168.7.246
+
+# Authentification Defaults
+netapp_hostname:  "{{ clus.mgmt }}"
+netapp_username:  admin
+netapp_password:  netapp1234     # Remove to use vars_prompt or vault password
+validate_certs:   false          # Set to bypass security error due to self-signed certs

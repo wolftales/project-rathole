@@ -1,5 +1,5 @@
 ---
-- name: 'StorageGRID: Configure NTP'
+- name: 'StorageGRID: Create admin user: {{ grid_admin_non_root }}'
   hosts: localhost
   gather_facts: no
   collections:
@@ -28,17 +28,21 @@
       }
     register: auth_response
 
-  - name: update NTP servers on StorageGRID
-    netapp.storagegrid.na_sg_grid_ntp:
+  - name: Create non-root admin account on StorageGRID
+    netapp.storagegrid.na_sg_grid_user:
       <<: *grid_auth
 
-      state: present
-      passphrase: "{{ grid_passphrase }}"
-      ntp_servers: "{{ grid_ntp_srvs }}"
+      state:        present
+      full_name:    "{{ item }}"
+      unique_name:  "user/{{ item }}"
+      member_of:    "group/{{ grid_admin_group }}"
+      password:     "{{ grid_admin_non_root_password }}"
+      disable:      false
 
-    register: grid_ntp_results
+    register: grid_admin_results
+    loop: "{{ grid_admin_non_root }}"
 
-  - name: Print GRID Response
+  - name: Print GRID response
     debug:
       msg:
-      - "{{ grid_ntp_results }}"
+      - "{{ grid_admin_results }}"
