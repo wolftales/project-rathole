@@ -1,6 +1,6 @@
 ###
-#  Ansible vars file sample for a basic ONTAP cluster & vserver
-#
+#  Ansible identity vars file for 'redshirt'
+#  
 ###
 
 ###
@@ -17,11 +17,17 @@ clus:
 # Node & SVM Network IP address Information
   node1:
     node_mgmt_ip:   192.168.7.241
-    icl:            192.168.7.242
+    icl:            
+      ip:           192.168.7.242
+      # netmask:      "{{ clus.netmask }}"
+      # gateway:      "{{ clus.gateway }}"
     svm_lif1:       192.168.7.245
   node2:
     node_mgmt_ip:   192.168.7.243
-    icl:            192.168.7.244
+    icl: 
+      ip:           192.168.7.244
+      # netmask:      "{{ clus.netmask }}"
+      # gateway:      "{{ clus.gateway }}"
     svm_lif2:       192.168.7.246
 
 # Authentification Defaults
