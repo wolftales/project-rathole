@@ -22,23 +22,6 @@
 
   tasks:
     
-    - name: Initial cluster & node
-      include_role:
-        name: deploy_ovf_vsim
-      vars:
-        vm_name:              "{{ clus.name }}-01"
-        sys_serial_number:    "4082368-50-7"
-        ontap_cluster_name:   "{{ cluster }}"
-        # vm_num_nics:          6
-        ontap_node_mgmt_ip:   "{{ clus.node1.node_mgmt_ip }}"
-        ontap_netmask:        "{{ clus.netmask }}"
-        ontap_gateway:        "{{ clus.gateway }}"
-        ontap_cluster_mgmt_ip: "{{ clus.mgmt }}"
-        set_admin_password:   true
-        ontap_password:       netapp1234
-        add_nodes_by_serial:  "4034389-06-2"
-        # force:                true  #Overwrite if exists - Repave
-  
     - name: Deploy VSIM Second node
       include_role:
         name: deploy_ovf_vsim
@@ -53,9 +36,32 @@
         ontap_netmask:        "{{ clus.netmask }}"
         ontap_gateway:        "{{ clus.gateway }}"
         # ontap_cluster_mgmt_ip: "{{ clus.mgmt }}"
-        set_admin_password:   true
-        ontap_password:       netapp1234
+        # set_admin_password:   true
+        # ontap_password:       netapp1234
         # force:                true  #Overwrite if exists - Repave
+        data_network:          "VM Network"
+        cluster_network:        "GRID Network"
+
+    - name: Initial cluster & node
+      include_role:
+        name: deploy_ovf_vsim
+      vars:
+        vm_name:              "{{ clus.name }}-01"
+        sys_serial_number:    "4082368-50-7"
+        ontap_cluster_name:   "{{ cluster }}"
+        # vm_num_nics:          6
+        ontap_node_mgmt_ip:   "{{ clus.node1.node_mgmt_ip }}"
+        ontap_netmask:        "{{ clus.netmask }}"
+        ontap_gateway:        "{{ clus.gateway }}"
+        ontap_cluster_mgmt_ip: "{{ clus.mgmt }}"
+        # set_admin_password:   true  # Impliied with cluster create
+        ontap_password:       netapp1234
+        add_nodes_by_serial:  "4034389-06-2"
+        # force:                true  #Overwrite if exists - Repave
+        data_network:          "VM Network"
+        cluster_network:        "GRID Network"
+  
+    
 
    
 
