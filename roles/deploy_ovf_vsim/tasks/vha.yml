@@ -81,14 +81,17 @@
   set_fact: 
     shelf0_qty: 14
   when: size_table[shelf0_disk_size|default('')]|default('')|int > 0 and shelf0_qty|int == 0
+
 - name: default shelf1_qty
   set_fact: 
     shelf1_qty: 14
   when: size_table[shelf1_disk_size|default('')]|default('')|int > 0 and shelf1_qty|int == 0
+
 - name: default shelf2_qty
   set_fact: 
     shelf2_qty: 14
   when: size_table[shelf2_disk_size|default('')]|default('')|int > 0 and shelf2_qty|int == 0
+
 - name: default shelf3_qty
   set_fact: 
     shelf3_qty: 14
@@ -100,6 +103,7 @@
                {{ shelf0_disk_count|default(shelf0_qty) }}:\
                {{ shelf0_shelf }}"
   when: shelf0_disk_count|default(shelf0_qty)|int >0
+
 - name: assemble vdevinit shelf1
   set_fact:
     vdevinit: "{{ vdevinit }},\
@@ -107,6 +111,7 @@
                {{ shelf1_disk_count|default(shelf1_qty) }}:\
                {{ shelf1_shelf }}"
   when: shelf1_disk_count|default(shelf1_qty)|int >0
+
 - name: assemble vdevinit shelf2
   set_fact:
     vdevinit: "{{ vdevinit }},\
@@ -114,6 +119,7 @@
                {{ shelf2_disk_count|default(shelf2_qty) }}:\
                {{ shelf2_shelf }}"
   when: shelf2_disk_count|default(shelf2_qty)|int >0
+
 - name: assemble vdevinit shelf3
   set_fact:
     vdevinit: "{{ vdevinit }},\
@@ -220,11 +226,11 @@
   until: sendkeys_result is succeeded
   loop: 
     # set the node's unique identifiers
-    - "setenv SYS_SERIAL_NUM {{sys_serial_number}}"
-    - "setenv bootarg.nvram.sysid {{nvram_sysid}}"
+    - "setenv SYS_SERIAL_NUM {{ sys_serial_number }}"
+    - "setenv bootarg.nvram.sysid {{ nvram_sysid }}"
     # configure the simulated disk shelves
-    - "setenv bootarg.vm.sim.vdevinit {{vdevinit}}"
-    - "setenv bootarg.sim.vdevinit {{vdevinit}}"
+    - "setenv bootarg.vm.sim.vdevinit {{ vdevinit }}"
+    - "setenv bootarg.sim.vdevinit {{ vdevinit }}"
     # set automatic 4a
     - "setenv bootarg.bootmenu.allow_opts true"
     - "setenv bootarg.bootmenu.args 4a"
@@ -243,14 +249,14 @@
 #     validate_certs: no 
 #     name: "{{ vm_name }}"
 #     keys_send: ENTER
-#     string_send: "{{item}}"
+#     string_send: "{{ item }}"
 #   delegate_to: localhost
 #   loop: 
 #   #  - "setenv bootarg.template.use_node_uuids true"
 #     - "setenv bootarg.bootmenu.node_uuid bf5ff7fc-10bc-11ec-ba72-005056a201aa"
 #     - "setenv bootarg.mgwd.nblade_uuid bf5e90b2-10dc-11ec-ba72-005056a201aa"
-#   #  - "setenv bootarg.bootmenu.node_uuid {{(ontap_cluster_name|default(vm_name)+vm_name)|to_uuid}}"
-#   #  - "setenv bootarg.mgwd.nblade_uuid {{(ontap_cluster_name+vm_name+'nblade')|to_uuid}}"
+#   #  - "setenv bootarg.bootmenu.node_uuid {{ (ontap_cluster_name|default(vm_name)+vm_name)|to_uuid }}"
+#   #  - "setenv bootarg.mgwd.nblade_uuid {{ (ontap_cluster_name+vm_name+'nblade')|to_uuid }}"
 #     - "" # this is here to force the enter key after the preceding command
 #   # when: 
 #   #   - use_node_uuids|default(false)
@@ -263,7 +269,7 @@
     validate_certs: no 
     name: "{{ vm_name }}"
     keys_send: ENTER
-    string_send: "{{item}}"
+    string_send: "{{ item }}"
   delegate_to: localhost
   register: sendkeys_result
   retries: 3
@@ -302,7 +308,7 @@
   register: result           
   until: result is succeeded 
 
-- name: 'Run node setup on {{vm_name}}'
+- name: 'Run node setup on {{ vm_name }}'
   block:
   # vmware tools come up a little early so we need to pause for a bit
   - name: Wait for 60 seconds for Startup to Complete
@@ -333,7 +339,7 @@
   when: ontap_node_mgmt_ip != ""
 # block:end
 
-- name: 'set node admin password on {{vm_name}}'
+- name: 'set node admin password on {{ vm_name }}'
   community.vmware.vmware_guest_sendkey:
     hostname: '{{ vcenter_address }}'
     username: '{{ vcenter_username }}'
@@ -387,9 +393,9 @@
       username: '{{ vcenter_username }}'
       password: '{{ vcenter_password }}'     
       validate_certs: no 
-      name: "{{vm_name}}"
+      name: "{{ vm_name }}"
       keys_send: ENTER
-      string_send: "{{item}}"
+      string_send: "{{ item }}"
     delegate_to: localhost
     loop: 
       - "e0c" # cluster mgmt port
