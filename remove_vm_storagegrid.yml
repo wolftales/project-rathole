@@ -28,7 +28,8 @@
   tasks:
 
   # Shutdown and Remove StorageGRID Nodes
-  - include_role:
+  - name: Remove NetApp StorageGRID virtual nodes
+    include_role:
       name: remove_storagegrid_nodes
     vars:
       vars:
