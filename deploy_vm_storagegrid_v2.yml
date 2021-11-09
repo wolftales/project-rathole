@@ -26,8 +26,38 @@
       ovf_hostname:           "{{ sg.grid_name }}-admin"
       vm_memory_mb:           "{{ sg.admin.vm_memory_mb }}"
       vm_num_cpus:            "{{ sg.admin.vm_num_cpus }}"
+      # admin_network_ip:       "{{ sg.admin.admin_network_ip }}"
+      # client_network_ip:      "{{ sg.admin.client_network_ip }}"
       grid_network_ip:        "{{ sg.admin.grid_network_ip }}"
     when: sg.admin.grid_network_ip is defined and sg.admin.deploy is true
+
+  # Deploy Gateway Node
+  - name: Deploy NetApp StorageGRID Primary Gateway node
+    include_role:
+      name: deploy_ovf_storagegrid
+    vars:
+      node_type:              "VM_API_Gateway"
+      vm_name:                "{{ sg.grid_name }}-gateway"
+      ovf_hostname:           "{{ sg.grid_name }}-gateway"
+      vm_memory_mb:           "{{ sg.gateway.vm_memory_mb }}"
+      vm_num_cpus:            "{{ sg.gateway.vm_num_cpus }}"
+      # client_network_ip:      "{{ sg.gateway.client_network_ip }}"
+      grid_network_ip:        "{{ sg.gateway.grid_network_ip }}"
+    when: sg.gateway.grid_network_ip is defined and sg.gateway.deploy is true
+
+  # Deploy Non-Primary Admin Node
+  - name: Deploy NetApp StorageGRID Non-Primary Admin node
+    include_role:
+      name: deploy_ovf_storagegrid
+    vars:
+      node_type:              "VM_Admin_Node"
+      admin_role:             "Non-Primary"
+      vm_name:                "{{ sg.grid_name }}-admin2"
+      ovf_hostname:           "{{ sg.grid_name }}-admin2"
+      vm_memory_mb:           "{{ sg.admin2.vm_memory_mb }}"
+      vm_num_cpus:            "{{ sg.admin2.vm_num_cpus }}"
+      grid_network_ip:        "{{ sg.admin2.grid_network_ip }}"
+    when: sg.admin2.grid_network_ip is defined and sg.admin2.deploy is true
 
   # Deploy Storage Node 1
   - name: Deploy NetApp StorageGRID Primary Storage node 1
@@ -80,31 +110,4 @@
       vm_num_cpus:            "{{ sg.storage4.vm_num_cpus }}"
       grid_network_ip:        "{{ sg.storage4.grid_network_ip }}"
     when: sg.storage4.grid_network_ip is defined and sg.storage4.deploy is true
-
-  # Deploy Gateway Node
-  - name: Deploy NetApp StorageGRID Primary Gateway node
-    include_role:
-      name: deploy_ovf_storagegrid
-    vars:
-      node_type:              "VM_API_Gateway"
-      vm_name:                "{{ sg.grid_name }}-gateway"
-      ovf_hostname:           "{{ sg.grid_name }}-gateway"
-      vm_memory_mb:           "{{ sg.gateway.vm_memory_mb }}"
-      vm_num_cpus:            "{{ sg.gateway.vm_num_cpus }}"
-      grid_network_ip:        "{{ sg.gateway.grid_network_ip }}"
-    when: sg.gateway.grid_network_ip is defined and sg.gateway.deploy is true
-
-  # Deploy Non-Primary Admin Node
-  - name: Deploy NetApp StorageGRID Non-Primary Admin node
-    include_role:
-      name: deploy_ovf_storagegrid
-    vars:
-      node_type:              "VM_Admin_Node"
-      admin_role:             "Non-Primary"
-      vm_name:                "{{ sg.grid_name }}-admin2"
-      ovf_hostname:           "{{ sg.grid_name }}-admin2"
-      vm_memory_mb:           "{{ sg.admin2.vm_memory_mb }}"
-      vm_num_cpus:            "{{ sg.admin2.vm_num_cpus }}"
-      grid_network_ip:        "{{ sg.admin2.grid_network_ip }}"
-    when: sg.admin2.grid_network_ip is defined and sg.admin2.deploy is true
 
