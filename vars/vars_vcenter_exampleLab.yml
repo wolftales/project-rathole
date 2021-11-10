@@ -14,9 +14,9 @@ vcenter:
 # support alternate flat varible config
 ###
 
-vcenter_address:  "{{ vcenter.address }}"
-vcenter_username: "{{ vcenter.username }}"
-vcenter_password: "{{ vcenter.password }}"
-vcenter_datacenter: "{{ vcenter.datacenter }}"
-vcenter_cluster:  "{{ vcenter.cluster }}"
-vm_datastore:     "{{ vcenter.datastore }}"
+vcenter_address:          "{{ vcenter.address }}"
+vcenter_username:         "{{ vcenter.username }}"
+vcenter_password:         "{{ vcenter.password }}"
+vcenter_datacenter:       "{{ vcenter.datacenter }}"
+vcenter_cluster:          "{{ vcenter.cluster }}"
+vm_datastore:             "{{ vcenter.datastore }}"

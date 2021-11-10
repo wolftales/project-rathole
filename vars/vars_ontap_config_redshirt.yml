@@ -1,51 +1,44 @@
 ###
-#  Ansible vars file sample for a basic ONTAP cluster & vserver
-#
+#  Ansible configuration vars file for:
+#  A basic VSIM with standard ONTAP cluster & vserver configuration
+#  with: 
+#   - 6 NICs
+#   - 28 disks - 25 spares
 ###
 
+
 ###
-# Varibles for ONTAP cluster setup & config
-cluster:          redshirt
-clus:
-  name:           "{{ cluster }}"
-  loc:            VSIM                   # 'system snmp location'
-  mgmt:           192.168.7.240
-  netmask:        255.255.255.0
-  gateway:        192.168.7.1
-  aggr:           "{{ cluster | replace('-','_') }}"  # Replaces - with _
+# ONTAP Licenses
+###
+# licenses: 
 
-# Node & SVM Network IP address Information
-node1:
-  node_mgmt_ip:   192.168.7.241
-  icl:            192.168.7.242
-  svm_lif1:       192.168.7.245
-node2:
-  node_mgmt_ip:   192.168.7.243
-  icl:            192.168.7.244
-  svm_lif2:       192.168.7.246
+# VSIM license's codes 
+# Note: VSIM license's code for Serial numbers: "4082368-50-7" & "4034389-06-2"
+vsim_license_codes: QDDSVRRRYVHXCFABGAAAAAAAAAAA,MBXNQRRRYVHXCFABGAAAAAAAAAAA,ANGJKUNFXMSMUCEZFAAAAAAAAAAA,UFTUNUNFXMSMUCEZFAAAAAAAAAAA
 
-# Authentification Defaults
-netapp_hostname:  "{{ clus.mgmt }}"
-netapp_username:  admin
-netapp_password:  netapp1234     # Remove to use vars_prompt or vault password
-validate_certs:   false          # Set to bypass security error due to self-signed certs
+# Aggregate dick config
+raid:
+  count:          24
+  size:           24
 
 ###
 # DNS Services Settings
+# Note: Causing recursive loop when using a nested varible
 dns_domain:       example.local
 dns_srvrs:        192.168.7.3
 
 ###
 # NTP & Timezone Settings
 time:             time.nist.gov
+# time:             time.windows.com
 tzone:            'US/Pacific'  #  <Area/Location Timezone> - Specified in the Olson format
 # tzone:          'ETC/GMT'     #  <Area/Location Timezone> - Specified in the Olson format
 
 ###
 # Broadcast Domain name varibles
 bd:
-  mgmt:         mgmt
-  nas:          data
+  mgmt:         mgmt  # e0c ports (VSIM)
+  nas:          data  # a0a ports
 
 # Broadcast-domain split: Active Management ports
 bcd:
@@ -60,6 +53,7 @@ bcd:
 ###
 # Network Topoly / Link Standard
 # Networking Varibles - Update port members for 'ifgrp' config below
+# 'ifgrp' a0a port membership
 ifgrp_ports:    "e0f"
 vlan_id:        42          # Replace with VLAN ID
 
@@ -73,8 +67,8 @@ asup:
   noteto:       admin@example.local
   mailhosts:    192.168.7.3
   hostsubj:     true
-  to:           netapp_admin@example.local
-  from:         '{{ cluster }}@{{ dns_domain }}'
+  to:           'netapp_admin@{{ dns_domain }}'
+  from:         '{{ clus.name }}@{{ dns_domain }}'
   partner:
 
   # Node Specific Config parameters - node list
@@ -88,7 +82,7 @@ asup_config:
   to:         '{{ asup.to }}'
   noteto:     '{{ asup.noteto }}'
   partner:    '{{ asup.partner }}'
-- node:       '{{ cluster }}-02'
+- node:       '{{ clus.name }}-02'
   proxy_url:  '{{ asup.proxy_url }}'
   transport:  '{{ asup.transport }}'
   mailhosts:  '{{ asup.mailhosts }}'
@@ -100,26 +94,43 @@ asup_config:
 
 ###
 # SVM Configuration Settings
-svm:            ontap-vs01
-svm_root:       "{{ svm | replace('-','_') }}"
-svm_aggrs:      "{{ clus.aggr }}_01_aggr1,{{ clus.aggr }}_02_aggr1"
-svm_dns_domain: example.local
-svm_dns_srvrs:  192.168.7.3
-svm_netmask:    "{{ clus.netmask }}"    # Replace with IP if not the same
-svm_gateway:    "{{ clus.gateway }}"    # Replace with IP if not the same
+svm_name:       ontap-vs01
+svm:            
+  name:         "{{ svm_name }}"
+  root:         "{{ svm_name | replace('-','_') }}"
+  aggrs:        "{{ clus.aggr }}_01_aggr1,{{ clus.aggr }}_02_aggr1"
+  dns_domain:   "{{ dns_domain | default('example.local') }}"
+  dns_srvrs:    "{{ dns_srvrs  | default('192.168.7.3') }}"
+  netmask:      "{{ clus.netmask }}"    # Replace with IP if not the same
+  gateway:      "{{ clus.gateway }}"    # Replace with IP if not the same
+  aggr_list:    '[  ]'
+  protocol:     nfs
+  # export_policy:
+  # - name:  'Data'
+  #   client_match:
+  #   index:
+  #   ro_rule:
+  #   rw_rule:
+  #   super_user_security:
 
-# svm:            ontapvs01
-#   root:         "{{ svm | replace('-','_') }}"
-#   netmask:      "{{ cluster_netmask }}"    # Replace with IP if not the same
-#   gateway:      "{{ cluster_gateway }}"    # Replace with IP if not the same
-#   aggr_list:    '[  ]'
-#   export_policy:
-#   - name:  'Data'
-#     client_match:
-#     index:
-#     ro_rule:
-#     rw_rule:
-#     super_user_security:
+###
+# RBAC Configuration
+# User and Role Configuration Varibles
+###
+
+# role_cmds:
+#   - { name: 'netapp_harvest', cmddir: 'version', level: 'readonly', svm: '"{{ cluster }}"' }
+#   - { name: 'netapp_harvest', cmddir: 'cluster identity show', level: 'readonly', svm: '"{{ cluster }}"' }
+#   - { name: 'netapp_harvest', cmddir: 'cluster show', level: 'readonly', svm: '"{{ cluster }}"' }
+#   - { name: 'netapp_harvest', cmddir: 'system node show', level: 'readonly', svm: '"{{ cluster }}"' }
+#   - { name: 'netapp_harvest', cmddir: 'statistics', level: 'readonly', svm: '"{{ cluster }}"' }
+#   - { name: 'netapp_harvest', cmddir: 'lun show', level: 'readonly', svm: '"{{ cluster }}"' }
+#   - { name: 'netapp_harvest', cmddir: 'network interface show', level: 'readonly', svm: '"{{ cluster }}"' }
+#   - { name: 'netapp_harvest', cmddir: 'qos workload show', level: 'readonly', svm: '"{{ cluster }}"' }
+
+user_list:
+  - { name: 'harvest', app: 'ontapi', auth: 'password', role: 'readonly', pass: "{{ netapp_password }}", svm: "{{ cluster }}" }
+
 
 ###
 # Export-Policy Management
@@ -127,16 +138,10 @@ svm_gateway:    "{{ clus.gateway }}"    # Replace with IP if not the same
 ###
 
 svm_export_policy_name:
-- { svm: "{{ svm }}", name: 'Data' }
+- { svm: "{{ svm.name }}", name: 'Data' }
 
 export_policy_rules_list:
-- { name: 'default', svm: "{{ svm }}", client_match: '192.168.7.122', protocol: nfs, ro_rule: 'sys', rw_rule: 'sys', super_user_security: 'sys' }
-- { name: 'default', svm: "{{ svm }}", client_match: '192.168.7.0/24', protocol: any, ro_rule: 'any', rw_rule: 'none', super_user_security: 'none' }
-- { name: 'Data', svm: "{{ svm }}", client_match: '192.168.7.0/24', protocol: nfs, ro_rule: 'any', rw_rule: 'any', super_user_security: 'sys' }
-- { name: 'Data', svm: "{{ svm }}", client_match: '0.0.0.0/0', protocol: nfs, ro_rule: 'any', rw_rule: 'none', super_user_security: 'none' }
-
-###
-# ONTAP Licenses
-# Note: VSIM license's code
-###
-licenses: QDDSVRRRYVHXCFABGAAAAAAAAAAA,MBXNQRRRYVHXCFABGAAAAAAAAAAA,ANGJKUNFXMSMUCEZFAAAAAAAAAAA,UFTUNUNFXMSMUCEZFAAAAAAAAAAA
+- { name: 'default', svm: "{{ svm.name }}", client_match: '192.168.7.122', protocol: nfs, ro_rule: 'sys', rw_rule: 'sys', super_user_security: 'sys' }
+- { name: 'default', svm: "{{ svm.name }}", client_match: '192.168.7.0/24', protocol: any, ro_rule: 'any', rw_rule: 'none', super_user_security: 'none' }
+- { name: 'Data', svm: "{{ svm.name }}", client_match: '192.168.7.0/24', protocol: nfs, ro_rule: 'any', rw_rule: 'any', super_user_security: 'sys' }
+- { name: 'Data', svm: "{{ svm.name }}", client_match: '0.0.0.0/0', protocol: nfs, ro_rule: 'any', rw_rule: 'none', super_user_security: 'none' }

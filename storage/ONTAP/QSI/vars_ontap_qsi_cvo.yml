@@ -5,30 +5,32 @@
 
 ###
 # Varibles for ONTAP cluster setup & config
-cluster:          redshirt
+cluster:          CVO-NetApp
 clus:
   name:           "{{ cluster }}"
-  loc:            VSIM                   # 'system snmp location'
-  mgmt:           192.168.7.240
+  loc:            CVO              # 'system snmp location'
+  mgmt:           10.12.35.85
   netmask:        255.255.255.0
-  gateway:        192.168.7.1
+  gateway:        10.12.35.1
   aggr:           "{{ cluster | replace('-','_') }}"  # Replaces - with _
 
 # Node & SVM Network IP address Information
   node1:
-    node_mgmt_ip:   192.168.7.241
-    icl:            
-      ip:           192.168.7.242
+    node_mgmt_ip:   10.12.35.86
+    sp_ip:          10.12.35.88
+    # icl:            
+    #   ip:           192.168.7.xxx
       # netmask:      "{{ clus.netmask }}"
       # gateway:      "{{ clus.gateway }}"
-    svm_lif1:       192.168.7.245
+    svm_lif1:       10.8.30.60
   node2:
-    node_mgmt_ip:   192.168.7.243
-    icl: 
-      ip:           192.168.7.244
+    node_mgmt_ip:   10.12.35.87
+    sp_ip:          10.12.35.89
+    # icl: 
+    #   ip:           192.168.7.xxx
       # netmask:      "{{ clus.netmask }}"
       # gateway:      "{{ clus.gateway }}"
-    svm_lif2:       192.168.7.246
+    svm_lif2:       10.8.30.61
 
 # Authentification Defaults
 netapp_hostname:  "{{ clus.mgmt }}"

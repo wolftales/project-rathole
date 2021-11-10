@@ -1,6 +1,6 @@
 # Path to the Simulate ONTAP OVA File
 ovf_version: "9.9.1"
-ovf_file:    "{{role_path}}/files/vsim-netapp-DOT{{ovf_version}}-cm_nodar.ova"
+ovf_file:    "{{ role_path }}/files/vsim-netapp-DOT{{ ovf_version }}-cm_nodar.ova"
 
 # Default action is to create.  
 state: "present"
@@ -59,9 +59,6 @@ vdevinit: "31:14:0,31:14:1" # (28x4gb 15k)
 ontap_node_mgmt_ip: ""
 ontap_netmask:      ""
 ontap_gateway:      ""
-
-# Set admin password even on nodes not used to create clusters
-set_admin_password: false
 
 # Cluster Name (optional)
 # if not specified the vm_name will be used

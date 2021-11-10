@@ -3,8 +3,8 @@
 *.ova
 *.ovf
 *.vmdk
+*.tgz
 .DS_Store
-files/StorageGRID-Webscale-11.5.0/
-files/ElementOS
+files/StorageGRID-Webscale-11.5.0/vsphere/*
 secure/
 password.yml

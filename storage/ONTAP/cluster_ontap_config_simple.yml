@@ -15,10 +15,11 @@
   #     prompt: NetApp 'admin'
   #   - name: netapp_password
   #     prompt: NetApp 'admin' password
-  #     secret: true
+  #     private: true
+  #     unsafe: false
   vars_files:
+  - ../../vars/vars_ontap_redshirt.yml
   - ../../vars/vars_ontap_config_redshirt.yml
-  # - ../vars/vars_ontap_config_sandbox.yml
   - ../../vars/vars_ontap_config_role.yml
 
   collections:
@@ -49,12 +50,14 @@
 
   ###
   # Cluster Configuration
-  - include_role:
+  - name: ONTAP Cluster Standard Configuration
+    include_role:
       name: na_ontap_cluster_config
 
   ###
   # Vserver configuration
-  - include_role:
+  - name: ONTAP Vserver Configuration
+    include_role:
       name: na_ontap_vserver_create
 
   ###
@@ -104,8 +107,8 @@
       privilege: 'advanced'
 
       command:        [ 'system', 'snmp', 'location',
-                        '-location', "{{ cluster.loc }}" ]
-    when: cluster.loc is defined and cluster.loc != None
+                        '-location', "{{ clus.loc }}" ]
+    when: clus.loc is defined and clus.loc != None
 
   ###
   # Autosupport: Configuration
@@ -134,6 +137,36 @@
     when: asup_config is defined and asup_config != None
 
   ###
+  # User & Role Configuration
+  ###
+
+  # Creates user roles.
+  - name: Create User Role
+    na_ontap_user_role:
+      state: present
+      name: "{{ item.name }}"
+      command_directory_name: "{{ item.cmddir }}"
+      access_level: "{{ item.level }}"
+      vserver: "{{ item.svm }}"
+      <<: *login
+    with_list: "{{ role_cmds }}"
+    when: role_cmds is defined and role_cmds != None
+
+  # Creates users.
+  - name: Create Users
+    na_ontap_user:
+      state: present
+      name: "{{ item.name }}"
+      application: "{{ item.app }}"
+      authentication_method: "{{ item.auth }}"
+      role_name: "{{ item.role }}"
+      vserver: "{{ item.svm }}"
+      <<: *login
+    with_list: "{{ user_list }}"
+    when: user_list is defined and user_list != None
+    
+
+  ###
   # Export-Policies: Create and Manage
   # Note: Comment this out if not needed
   ###
@@ -142,7 +175,7 @@
     na_ontap_export_policy_rule:
       state:                absent
       policy_name:          default
-      vserver:              "{{ svm }}"
+      vserver:              "{{ svm.name }}"
       rule_index:           "{{ item.rule_index | default(1) }}"
       <<: *login
 
@@ -153,6 +186,7 @@
       vserver:              "{{ item.svm }}"
       <<: *login
     loop:                   "{{ svm_export_policy_name }}"
+    when: svm_export_policy_name is defined and svm_export_policy_name != None
 
   - name: Setup "Default" and SVM Export-policies
     na_ontap_export_policy_rule:
@@ -167,3 +201,4 @@
       super_user_security:  "{{ item.super_user_security }}"
       <<: *login
     loop:                   "{{ export_policy_rules_list }}"
+    when: export_policy_rules_list is defined and export_policy_rules_list != None
