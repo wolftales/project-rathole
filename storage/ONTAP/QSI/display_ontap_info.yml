@@ -1,0 +1,42 @@
+---
+- hosts: localhost
+  gather_facts: false
+  collections:
+  - netapp.ontap
+  vars_files:
+#    - vars/vars_files.yml
+  vars:
+    netapp_hostname:
+    netapp_username: admin
+    # netapp_password: 
+  vars_prompt:  # For NetApp Admin Credentials
+    # - name: netapp_username
+    #   prompt: NetApp 'admin' username (deafult = 'admin')
+    - name: netapp_password
+      prompt: NetApp 'admin' password
+      private: true
+
+  tasks:
+
+  # ONTAP_INFO
+  - name: Display ONTAP_info All
+    netapp.ontap.na_ontap_info:
+      state: info
+      hostname: "{{ netapp_hostname }}"
+      username: "{{ netapp_username | default('admin') }}"
+      password: "{{ netapp_password }}"
+      https: true
+      validate_certs: false
+      use_rest: Auto
+      gather_subset:
+        - all
+        # - volume_info
+        # - lun_info
+        # - snapshot_policy_info
+        # - ontap_system_version
+        # - ontap_version
+    register: ontap_info
+
+  - debug:
+      msg: "{{ ontap_info.ontap_info }}"
+      # msg: "{{ ontap_info.ontap_info.ontap_system_version.version }}"
