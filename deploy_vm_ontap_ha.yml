@@ -1,0 +1,52 @@
+---
+- hosts: localhost
+  name: Build ONTAP Simulator HA Pair from OVA (experimental)
+  gather_facts: false
+  collections:
+    - community.vmware
+  vars_files:
+    - vars/vars_vcenter_exampleLab.yml
+    - vars/vars_ontap_redshirt.yml
+  vars:
+    # ovf_file:           files/ONTAP/vsim-netapp-DOT9.9.1-cm_nodar.ova
+    ovf_file:           "files/ONTAP/vsim-netapp-DOT{{ ovf_version }}-cm_nodar.ova"
+    ovf_version:        "9.9.1"
+    
+
+    vcenter_address:    vcenter.demo.lab
+    vcenter_username:   administrator@vsphere.local
+    vcenter_password:   ChangeMe2!
+    vcenter_datacenter: "Datacenter 1"
+    vm_datastore:       "datastore1"
+  
+
+  tasks:
+    
+  # In this scenario the partner node is deployed automatically
+  - name: 'Deploy ONTAP 2-node HA Pair with OVA' 
+    include_role: 
+      name: deploy_ovf_vsim
+    vars:
+      vm_name:               "{{ clus.name }}-01"  
+      partner_name:          "{{ clus.name }}-02"
+      # vm_datastore:          "{{ vm_datastore }}"
+      vm_datastore:          "datastore1"
+      vm_disk_provisioning:  eagerZeroedThick
+      data_network:          "VM Network"
+      cluster_network:       "GRID Network"
+      ontap_cluster_name:    "{{ clus.name }}"
+      ontpa_cluster_mgmt_ip: "{{ clus.mgmt }}"
+      sys_serial_number:     "4082368-50-7"
+      partner_serial:        "4034389-06-2"
+      ontap_node_mgmt_ip:    "{{ clus.node1.node_mgmt_ip }}"  
+      partner_ip:            "{{ clus.node2.node_mgmt_ip }}"
+      ontap_netmask:         "{{ clus.netmask }}"
+      ontap_gateway:         "{{ clus.gateway }}"
+      disk_model:            "vscsi"
+      shelf0_disk_count:     12  
+      shelf0_disk_size:      8192  # vscsi disk sizes are specified in mb
+      shelf1_disk_count:     12  
+      shelf1_disk_size:      8192
+
+
+    
