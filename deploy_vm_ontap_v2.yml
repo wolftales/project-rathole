@@ -6,8 +6,9 @@
     - community.vmware
   vars:
     # ovf_file:           files/ONTAP/vsim-netapp-DOT9.9.1-cm_nodar.ova
-    ovf_file:           "files/ONTAP/vsim-netapp-DOT{{ ovf_version }}-cm_nodar.ova"
-    ovf_version:        "9.9.1"
+    ovf_file:           files/ONTAP/vsim-netapp-DOT9.10.1-cm_nodar.ova
+    # ovf_file:           "files/ONTAP/vsim-netapp-DOT{{ ovf_version }}-cm_nodar.ova"
+    ovf_version:        "9.10.1"
     
 
     vcenter_address:    vcenter.demo.lab
@@ -17,7 +18,7 @@
     vm_datastore:       "datastore1"
   vars_files:
     - vars/vars_vcenter_exampleLab.yml
-    - vars/vars_ontap_redshirt.yml
+    - vars/vars_ontap_sandbox.yml
 
   tasks:
     
