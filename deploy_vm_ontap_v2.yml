@@ -6,8 +6,8 @@
     - community.vmware
   vars:
     # ovf_file:           files/ONTAP/vsim-netapp-DOT9.9.1-cm_nodar.ova
-    ovf_file:           files/ONTAP/vsim-netapp-DOT9.10.1-cm_nodar.ova
-    # ovf_file:           "files/ONTAP/vsim-netapp-DOT{{ ovf_version }}-cm_nodar.ova"
+    # ovf_file:           files/ONTAP/vsim-netapp-DOT9.10.1-cm_nodar.ova
+    ovf_file:           "files/ONTAP/vsim-netapp-DOT{{ ovf_version }}-cm_nodar.ova"
     ovf_version:        "9.10.1"
     
 
@@ -39,8 +39,8 @@
         # set_admin_password:   true  # Impliied with cluster create
         # ontap_password:       netapp1234
         force:                true  # Overwrite if exists - Repave
-        data_network:         "VM Network"
-        cluster_network:      "GRID Network"
+        data_network:         "DSwitch-VM Network"
+        cluster_network:      "DSwitch-GRID Network"
         shelf0_disk_count:    14  # Default is - Type: 31 Size: 4000
         shelf0_disk_size:     4000
         shelf0_disk_type:     31 
@@ -70,8 +70,8 @@
         ontap_password:       netapp1234
         add_nodes_by_serial:  "4034389-06-2"
         force:                true  # Overwrite if exists - Repave
-        data_network:         "VM Network"
-        cluster_network:      "GRID Network"
+        data_network:         "DSwitch-VM Network"
+        cluster_network:      "DSwitch-GRID Network"
         shelf0_disk_count:    14  # Default is - Type: 31 Size: 4000
         shelf0_disk_size:     4000
         shelf0_disk_type:     31 
