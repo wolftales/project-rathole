@@ -1,0 +1,2 @@
+SHA1(vsphere-primary-admin.ovf)=2792b8f659b9bafd6dc9544213b0f8a914a24b01
+SHA1(NetApp-SG-11.5.0-20210511.2328.e9368a4.vmdk)=0cbac9ea71d0b187565568c6253cec0a338b2eed

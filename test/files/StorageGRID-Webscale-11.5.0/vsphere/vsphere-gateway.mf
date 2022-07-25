@@ -1,0 +1,2 @@
+SHA1(vsphere-gateway.ovf)=ab388a3ea3dbd89a7a0f3dfa3cd4206a509aeebb
+SHA1(NetApp-SG-11.5.0-20210511.2328.e9368a4.vmdk)=0cbac9ea71d0b187565568c6253cec0a338b2eed
