@@ -1,0 +1,75 @@
+StorageGRID Webscale 11.5.0 README
+==================================
+Copyright (c) 2016-2017 NetApp, Inc., All Rights Reserved.
+
+This package contains all the files necessary to deploy StorageGRID Webscale 11.5.0
+
+Contents
+--------
+
+  vsphere                                 - Directory containing vSphere-specific files
+
+  vsphere
+  -------
+  README                                  - This file
+  NLF000000.txt                           - A sample license for testing and evaluation purposes
+  NetApp-SG-11.5.0-<rel>.vmdk             - StorageGRID node image packaged as a virtual machine disk file
+  vsphere-primary-admin.ovf               - The vSphere OVF template for deploying a Primary Admin Node
+  vsphere-non-primary-admin.ovf           - The vSphere OVF template for deploying a Non-Primary Admin Node
+  vsphere-storage.ovf                     - The vSphere OVF template for deploying a Storage Node
+  vsphere-gateway.ovf                     - The vSphere OVF template for deploying a Gateway Node
+  vsphere-archive.ovf                     - The vSphere OVF template for deploying an Archive Node
+  deploy-vsphere-ovftool.sh               - A Bash shell script for deploying grid nodes using vSphere ovftool
+  deploy-vsphere-ovftool.sample.ini       - An example configuration file for deploy-vsphere-ovftool.sh
+  configure-storagegrid.py                - A Python script for configuring the grid (used in place of installation UI)
+  configure-storagegrid.blank.json        - An empty configuration file for configure-storagegrid.py
+  configure-storagegrid.sample.json       - An example configuration file for configure-storagegrid.py
+  configure-sga.py                        - A Python script for configuring StorageGRID appliances
+
+
+Documentation
+-------------
+
+Full product documentation can be found at:
+
+  http://mysupport.netapp.com/documentation/productlibrary/index.html?productID=61863
+
+
+VMware vSphere Installation Instructions
+========================================
+
+For full installation documentation, please review the "Installation Guide for VMware" for this release.
+
+Step 1 - Deploy the primary admin node
+
+  In vSphere click deploy OVF template and pick the vsphere-primary-admin.ovf included in this package.
+  Choose a name for the node along with the location, cluster, datastore, disk format, and network.
+  Configure the network IP information and name for this node.
+  Click next and finish to begin the upload of the VM
+
+Step 2 - Deploy other nodes
+
+  In vSphere click deploy OVF template and pick the <node type>.ovf included in this package.
+  Choose a name for the node along with the location, cluster, datastore, disk format, and network.
+  Configure the network IP information and name for this node.
+  Configure the IP address of the primary admin node
+  Click next and finish to begin the upload of the VM
+  Repeat this step until all required nodes have been deployed
+
+Step 3 - Add storage to storage nodes
+
+  In the vSphere client right click on each storage node and click edit settings.
+  Three 4TB disks for RangeDBs have been provided for simple POCs.
+  You may need to remove these and configure as appropriate four your environment.
+
+Step 4 - Start the VMs
+
+  On each node VM deployed click start.
+
+Step 5 - Complete the StorageGRID configuration.
+
+  Browse to the primary admin IP (You will have to wait until this VM has fully booted)
+  Select 'Install a new StorageGRID Webscale'
+  Proceed with the 8 configuration steps to configure the license, NTP, DNS, passwords, and approve the nodes joining the grid.
+  On the summary page, click "Install" to complete installation and once completed you will be redirected to the Management Interface
+
