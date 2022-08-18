@@ -1,3 +1,8 @@
+###
+# Known limitations:
+#   -  Second node comes through with broadcast domains messed up if cluster and data ports
+#      are visible to one another.
+###
 ---
 - hosts: localhost
   name: Build ONTAP Simulator from OVA
